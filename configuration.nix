@@ -121,6 +121,11 @@
       pkgs.kitty
       pkgs.sublime4
       pkgs.python38
+      pkgs.qbittorrent
+      pkgs.mullvad-vpn
+      pkgs.htop
+      pkgs.sublime-merge
+      pkgs.rnnoise-plugin
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -132,6 +137,19 @@
   # };
 
   # List services that you want to enable:
+
+  # Mullvad
+  services.mullvad-vpn.enable = true;
+
+  # mlocate
+  services.locate = {
+    enable = true;
+    localuser = null;
+    locate = pkgs.mlocate;
+    interval = "hourly"; 
+    };
+
+  #Mullvad
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
