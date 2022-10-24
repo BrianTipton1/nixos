@@ -81,7 +81,7 @@
   users.users.brian = {
     isNormalUser = true;
     description = "brian";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
     #  thunderbird
@@ -119,7 +119,8 @@
       pkgs.wl-clipboard
       pkgs.neovim
       pkgs.kitty
-      pkgs.sublime4      
+      pkgs.sublime4
+      pkgs.python38
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -160,4 +161,6 @@
   #virtualisation.virtualbox.guest.x11 = true;
   ## End Virtual Box
 
+  ## Docker Setup
+  virtualisation.docker.enable = true;
 }
