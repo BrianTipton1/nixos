@@ -42,10 +42,14 @@
   # Optionally, you may need to select the appropriate driver version for your specific GPU.
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   ### End Nvidia Setup
-
+  
+  # Enable this for wayland support 
+  boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
 
 
   # Configure keymap in X11
@@ -81,7 +85,7 @@
   users.users.brian = {
     isNormalUser = true;
     description = "brian";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "clamavUser"];
     packages = with pkgs; [
       firefox
     #  thunderbird
@@ -126,7 +130,13 @@
       pkgs.htop
       pkgs.sublime-merge
       pkgs.rnnoise-plugin
+      pkgs.graphite-gtk-theme
+      pkgs.tela-circle-icon-theme
+      gnomeExtensions.appindicator
+      pkgs.ripgrep      
   ];
+
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -148,8 +158,11 @@
     locate = pkgs.mlocate;
     interval = "hourly"; 
     };
+  
+  # Clamav/Freshclam Service
+  services.clamav.daemon.enable = true; 
+  services.clamav.updater.enable = true; 
 
-  #Mullvad
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
