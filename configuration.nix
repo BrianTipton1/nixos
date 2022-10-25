@@ -31,26 +31,20 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.utf8";
 
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   ## Nvidia Setup 
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
-
-  # Optionally, you may need to select the appropriate driver version for your specific GPU.
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  ### End Nvidia Setup
-  
-  # Enable this for wayland support 
+  # Required for nvidia with wayland to load drm mod 
   boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  ### End Nvidia Setup
   
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-
-
 
   # Configure keymap in X11
   services.xserver = {
@@ -85,10 +79,9 @@
   users.users.brian = {
     isNormalUser = true;
     description = "brian";
-    extraGroups = [ "networkmanager" "wheel" "docker" "clamavUser"];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
-    #  thunderbird
     ];
   };
 
@@ -98,44 +91,65 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+      # Editors
       vim 
+      pkgs.neovim
+      pkgs.sublime4
+      
+      # Utilities
       wget
       pkgs.util-linux
       pkgs.pciutils
-      
       pkgs.bat
-      pkgs.bitwarden
-      pkgs.clamav
-      pkgs.discord
       pkgs.exa
       pkgs.fzf
-      pkgs.gcc
       pkgs.git
-      pkgs.jetbrains-mono
       pkgs.killall
-      pkgs.libreoffice
-      pkgs.lua
-      pkgs.nerdfonts
-      pkgs.nodePackages.npm
+      pkgs.clamav
       pkgs.unzip
-      pkgs.jetbrains.pycharm-professional
-      pkgs.zoom-us
+      pkgs.sublime-merge
       pkgs.wl-clipboard
-      pkgs.neovim
-      pkgs.kitty
-      pkgs.sublime4
+      pkgs.ripgrep      
+      pkgs.htop
+      
+      # Voice/Video Call      
+      pkgs.discord
+      pkgs.zoom-us
+
+      # IDE's
+      pkgs.jetbrains.pycharm-professional
+
+      # Office Tooling 
+      pkgs.libreoffice
+
+      #Fonts
+      pkgs.jetbrains-mono
+      pkgs.nerdfonts
+
+      # Compilers/Interpreters
+      pkgs.gcc
+      pkgs.lua
       pkgs.python38
+      pkgs.nodePackages.npm
+
+      # Terminal Emulators
+      pkgs.kitty
+
+      # Assorted
+      pkgs.bitwarden
       pkgs.qbittorrent
       pkgs.mullvad-vpn
-      pkgs.htop
-      pkgs.sublime-merge
+      
+      # Audio
       pkgs.rnnoise-plugin
+      
+      # Gnome Extensions/Themes
       pkgs.graphite-gtk-theme
       pkgs.tela-circle-icon-theme
-      gnomeExtensions.appindicator
-      pkgs.ripgrep      
+      gnomeExtensions.appindicator      
   ];
 
+  # Need this with appindicator https://nixos.wiki/wiki/GNOME
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   # Some programs need SUID wrappers, can be configured further or are
