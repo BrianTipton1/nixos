@@ -46,6 +46,12 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  # Disable Some Default Gnome Apps
+  environment.gnome.excludePackages = [ 
+    pkgs.gnome.geary
+    pkgs.gnome-console
+  ];
+
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
@@ -111,6 +117,7 @@
       pkgs.wl-clipboard
       pkgs.ripgrep      
       pkgs.htop
+      pkgs.thefuck
       
       # Voice/Video Call      
       pkgs.discord
@@ -139,6 +146,7 @@
       pkgs.bitwarden
       pkgs.qbittorrent
       pkgs.mullvad-vpn
+      pkgs.flameshot
       
       # Audio
       pkgs.rnnoise-plugin
@@ -146,7 +154,16 @@
       # Gnome Extensions/Themes
       pkgs.graphite-gtk-theme
       pkgs.tela-circle-icon-theme
-      gnomeExtensions.appindicator      
+      gnomeExtensions.appindicator
+      pkgs.gnomeExtensions.dash-to-dock
+      pkgs.gnomeExtensions.clipboard-history
+      pkgs.gnome.gnome-tweaks
+      
+      # School
+      pkgs.anki-bin      
+
+      # Email
+      pkgs.thunderbird
   ];
 
   # Need this with appindicator https://nixos.wiki/wiki/GNOME
@@ -197,6 +214,33 @@
   
   ## Default Shell to zsh
   users.defaultUserShell = pkgs.zsh;
+  # Aliases and Plugins
+  programs.zsh = {
+    enable = true;
+    syntaxHighlighting.enable = true;
+    autosuggestions.enable = true;   
+    ## Aliases
+    shellAliases = {
+      vim = "nvim";
+      ll = "exa --long --git --icons --no-filesize";
+      ls = "exa --long --git --icons --no-filesize";
+      l = "exa --long --all --git --icons --no-filesize";
+      lr = "exa --long --all --git --tree --icons --no-filesize";
+      ld = "exa --long --all --git --tree --icons --no-filesize --git-ignore";
+      rg = "rg -i";
+      cat = "bat";
+      nuke = "rm -rf";
+      vi = "nvim";
+      update = "sudo nixos-rebuild switch";
+      sysadmin = "sudo cp /etc/nixos/configuration.nix /home/brian/Developer/nixos/ && cd /home/brian/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
+
+    };
+    ohMyZsh = {
+      enable = true;
+      plugins = [ "git" "thefuck" "fzf" "z"];
+      theme = "evan";
+    };
+};
   ## End zsh
 
   ## Virtual Box Stuff
