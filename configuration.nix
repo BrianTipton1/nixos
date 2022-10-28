@@ -117,7 +117,7 @@
       pkgs.wl-clipboard
       pkgs.ripgrep      
       pkgs.htop
-      pkgs.thefuck
+      pkgs.file     
       
       # Voice/Video Call      
       pkgs.discord
@@ -125,7 +125,8 @@
 
       # IDE's
       pkgs.jetbrains.pycharm-professional
-
+      pkgs.jetbrains.idea-ultimate
+      
       # Office Tooling 
       pkgs.libreoffice
 
@@ -138,6 +139,7 @@
       pkgs.lua
       pkgs.python38
       pkgs.nodePackages.npm
+      pkgs.jdk
 
       # Terminal Emulators
       pkgs.kitty
@@ -158,6 +160,11 @@
       pkgs.gnomeExtensions.dash-to-dock
       pkgs.gnomeExtensions.clipboard-history
       pkgs.gnome.gnome-tweaks
+      pkgs.whitesur-gtk-theme
+      pkgs.whitesur-icon-theme
+      pkgs.capitaine-cursors
+      pkgs.gnomeExtensions.dark-variant     
+      pkgs.gnomeExtensions.sur-clock   
       
       # School
       pkgs.anki-bin      
@@ -233,12 +240,12 @@
       vi = "nvim";
       update = "sudo nixos-rebuild switch";
       sysadmin = "sudo cp /etc/nixos/configuration.nix /home/brian/Developer/nixos/ && cd /home/brian/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
-
+      updatedb = "sudo updatedb";
     };
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" "thefuck" "fzf" "z"];
-      theme = "evan";
+      plugins = [ "git" "sudo" "fzf" "z"];
+      theme = "half-life";
     };
 };
   ## End zsh
