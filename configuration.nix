@@ -1,9 +1,4 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, ... }:
-
+{ config, pkgs, webcord, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -16,7 +11,7 @@
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -97,11 +92,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+      webcord.packages.${pkgs.system}.default
       # Editors
       vim 
       pkgs.neovim
       pkgs.sublime4
-      
       # Utilities
       wget
       pkgs.util-linux
@@ -120,7 +115,6 @@
       pkgs.file     
       
       # Voice/Video Call      
-      pkgs.discord
       pkgs.zoom-us
 
       # IDE's
@@ -137,9 +131,11 @@
       # Compilers/Interpreters
       pkgs.gcc
       pkgs.lua
-      pkgs.python38
-      pkgs.nodePackages.npm
       pkgs.jdk
+      pkgs.python38
+
+      # Lang Servers
+      pkgs.haskell-language-server
 
       # Terminal Emulators
       pkgs.kitty
@@ -239,8 +235,12 @@
       nuke = "rm -rf";
       vi = "nvim";
       update = "sudo nixos-rebuild switch";
-      sysadmin = "sudo cp /etc/nixos/configuration.nix /home/brian/Developer/nixos/ && cd /home/brian/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
+      sysadmin = "sudo cp /etc/nixos/configuration.nix $HOME/Developer/nixos/ && sudo cp /etc/nixos/flake.nix $HOME/Developer/nixos/ && cd $HOME/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
       updatedb = "sudo updatedb";
+      copy = "wl-copy";
+      repl = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
+      jup = "nix-shell $PWD/shell.nix --command jupyter-lab";
+      mkjup = "cp $HOME/Developer/NixShells/Jupyter/shell.nix $PWD && nvim shell.nix";
     };
     ohMyZsh = {
       enable = true;
@@ -259,4 +259,10 @@
 
   ## Docker Setup
   virtualisation.docker.enable = true;
+
+  # Enable Flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Global Flags
+  environment.variables.NIXOS_OZONE_WL = "1";
 }
