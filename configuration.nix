@@ -1,4 +1,4 @@
-{ config, pkgs, webcord, ... }:
+{ config, pkgs, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -40,7 +40,6 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-
   # Disable Some Default Gnome Apps
   environment.gnome.excludePackages = [ 
     pkgs.gnome.geary
@@ -92,11 +91,12 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-      webcord.packages.${pkgs.system}.default
       # Editors
       vim 
       pkgs.neovim
       pkgs.sublime4
+      pkgs.vscode
+      
       # Utilities
       wget
       pkgs.util-linux
@@ -112,7 +112,10 @@
       pkgs.wl-clipboard
       pkgs.ripgrep      
       pkgs.htop
-      pkgs.file     
+      pkgs.file
+      pkgs.github-desktop
+      pkgs.cachix
+      pkgs.direnv
       
       # Voice/Video Call      
       pkgs.zoom-us
@@ -133,10 +136,7 @@
       pkgs.lua
       pkgs.jdk
       pkgs.python38
-
-      # Lang Servers
-      pkgs.haskell-language-server
-
+      pkgs.nodePackages.npm
       # Terminal Emulators
       pkgs.kitty
 
@@ -263,6 +263,6 @@
   # Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Global Flags
-  environment.variables.NIXOS_OZONE_WL = "1";
+  # Trust Users for cachix use
+  nix.settings.trusted-users = [ "root" "brian" ];
 }
