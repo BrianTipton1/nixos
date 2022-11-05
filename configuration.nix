@@ -124,7 +124,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
       # Editors
-      vim 
       pkgs.neovim
       pkgs.sublime4
       pkgs.vscode
@@ -195,9 +194,11 @@
   #users.defaultUserShell = pkgs.zsh;
   # Aliases and Plugins
   programs.zsh = {
+    
     enable = true;
     syntaxHighlighting.enable = true;
     autosuggestions.enable = true;   
+    
     ## Aliases
     shellAliases = {
       vim = "nvim";
@@ -215,13 +216,35 @@
       updatedb = "sudo updatedb";
       copy = "wl-copy";
       repl = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
-      mkMonad = "nix-shell -p \"haskellPackages.ghcWithPackages (pkgs: with pkgs; [ cabal-install ])\" --run \"cabal init\" && cp $HOME/Developer/NixShells/HaskellBase/default.nix .";
     };
+    
     ohMyZsh = {
       enable = true;
       plugins = [ "git" "sudo" "fzf" "z"];
       theme = "half-life";
     };
+    enableGlobalCompInit = false;
+
+    promptInit = 
+    ''
+    mkMonad() {
+        if [ -z "$1" ]
+        then 
+          echo "No argument supplied for mkMonad"
+        else 
+          mkdir "$1" && cd "$1" && nix-shell -p "haskellPackages.ghcWithPackages (pkgs: with pkgs; [ cabal-install ])" --run "cabal init" && cp $HOME/Developer/NixShells/HaskellBase/default.nix .
+        fi
+    }
+    '';
+
+    loginShellInit = 
+    ''     
+    # Create a cache folder for zcompdump if it isn't exists
+    if [ ! -d "$HOME/.cache/zsh" ]; then
+        mkdir -p $HOME/.cache/zsh
+    fi
+    export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$HOST-$ZSH_VERSION"
+    '';
 };
   ## End zsh
 
