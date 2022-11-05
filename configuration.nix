@@ -13,10 +13,6 @@
   networking.hostName = "nixos"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -72,16 +68,52 @@
     #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.brian = {
     isNormalUser = true;
     description = "brian";
+    shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
+      
+      # School
+      pkgs.anki-bin      
+
+      # Email
+      pkgs.thunderbird
+
+      # Assorted
+      pkgs.bitwarden
+      pkgs.qbittorrent
+      pkgs.mullvad-vpn
+      pkgs.flameshot
+
+      # Office Tooling 
+      pkgs.libreoffice
+
+      # Voice/Video Call      
+      pkgs.zoom-us
+
+      # Gnome Extensions/Themes
+      pkgs.graphite-gtk-theme
+      pkgs.tela-circle-icon-theme
+      gnomeExtensions.appindicator
+      pkgs.gnomeExtensions.dash-to-dock
+      pkgs.gnomeExtensions.clipboard-history
+      pkgs.gnome.gnome-tweaks
+      pkgs.whitesur-gtk-theme
+      pkgs.whitesur-icon-theme
+      pkgs.capitaine-cursors
+      pkgs.gnomeExtensions.dark-variant     
+      pkgs.gnomeExtensions.sur-clock   
+      
+      # IDE's
+      pkgs.jetbrains.pycharm-professional
+      pkgs.jetbrains.idea-ultimate
+
+      # Audio
+      pkgs.rnnoise-plugin
     ];
   };
 
@@ -116,16 +148,6 @@
       pkgs.github-desktop
       pkgs.cachix
       pkgs.direnv
-      
-      # Voice/Video Call      
-      pkgs.zoom-us
-
-      # IDE's
-      pkgs.jetbrains.pycharm-professional
-      pkgs.jetbrains.idea-ultimate
-      
-      # Office Tooling 
-      pkgs.libreoffice
 
       #Fonts
       pkgs.jetbrains-mono
@@ -135,50 +157,14 @@
       pkgs.gcc
       pkgs.lua
       pkgs.jdk
-      pkgs.python38
       pkgs.nodePackages.npm
+
       # Terminal Emulators
       pkgs.kitty
-
-      # Assorted
-      pkgs.bitwarden
-      pkgs.qbittorrent
-      pkgs.mullvad-vpn
-      pkgs.flameshot
-      
-      # Audio
-      pkgs.rnnoise-plugin
-      
-      # Gnome Extensions/Themes
-      pkgs.graphite-gtk-theme
-      pkgs.tela-circle-icon-theme
-      gnomeExtensions.appindicator
-      pkgs.gnomeExtensions.dash-to-dock
-      pkgs.gnomeExtensions.clipboard-history
-      pkgs.gnome.gnome-tweaks
-      pkgs.whitesur-gtk-theme
-      pkgs.whitesur-icon-theme
-      pkgs.capitaine-cursors
-      pkgs.gnomeExtensions.dark-variant     
-      pkgs.gnomeExtensions.sur-clock   
-      
-      # School
-      pkgs.anki-bin      
-
-      # Email
-      pkgs.thunderbird
   ];
 
   # Need this with appindicator https://nixos.wiki/wiki/GNOME
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
   # List services that you want to enable:
 
@@ -197,16 +183,6 @@
   services.clamav.daemon.enable = true; 
   services.clamav.updater.enable = true; 
 
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -216,7 +192,7 @@
   system.stateVersion = "22.05"; # Did you read the comment?
   
   ## Default Shell to zsh
-  users.defaultUserShell = pkgs.zsh;
+  #users.defaultUserShell = pkgs.zsh;
   # Aliases and Plugins
   programs.zsh = {
     enable = true;
@@ -225,6 +201,7 @@
     ## Aliases
     shellAliases = {
       vim = "nvim";
+      vi = "nvim";
       ll = "exa --long --git --icons --no-filesize";
       ls = "exa --long --git --icons --no-filesize";
       l = "exa --long --all --git --icons --no-filesize";
@@ -233,14 +210,12 @@
       rg = "rg -i";
       cat = "bat";
       nuke = "rm -rf";
-      vi = "nvim";
       update = "sudo nixos-rebuild switch";
       sysadmin = "sudo cp /etc/nixos/configuration.nix $HOME/Developer/nixos/ && sudo cp /etc/nixos/flake.nix $HOME/Developer/nixos/ && cd $HOME/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
       updatedb = "sudo updatedb";
       copy = "wl-copy";
       repl = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
-      jup = "nix-shell $PWD/shell.nix --command jupyter-lab";
-      mkjup = "cp $HOME/Developer/NixShells/Jupyter/shell.nix $PWD && nvim shell.nix";
+      mkMonad = "nix-shell -p \"haskellPackages.ghcWithPackages (pkgs: with pkgs; [ cabal-install ])\" --run \"cabal init\" && cp $HOME/Developer/NixShells/HaskellBase/default.nix .";
     };
     ohMyZsh = {
       enable = true;
