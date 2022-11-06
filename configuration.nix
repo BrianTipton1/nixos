@@ -105,7 +105,8 @@
       # IDE's
       pkgs.jetbrains.pycharm-professional
       pkgs.jetbrains.idea-ultimate
-
+      pkgs.jetbrains.rider
+      
       # Audio
       pkgs.rnnoise-plugin
     ];
@@ -147,12 +148,10 @@
       pkgs.nerdfonts
 
       # Compilers/Interpreters
-      pkgs.gcc
       pkgs.lua
-      pkgs.jdk
-      pkgs.nodePackages.npm
       pkgs.nil
       pkgs.nodejs
+
       # Terminal Emulators
       pkgs.kitty
   ];
