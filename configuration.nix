@@ -151,7 +151,8 @@
       pkgs.lua
       pkgs.jdk
       pkgs.nodePackages.npm
-
+      pkgs.nil
+      pkgs.nodejs
       # Terminal Emulators
       pkgs.kitty
   ];
@@ -233,7 +234,8 @@
     '';
 
     loginShellInit = 
-    ''     
+    ''
+    export ZSHZ_DATA="$HOME/.cache/zsh/.z"
     # Create a cache folder for zcompdump if it isn't exists
     if [ ! -d "$HOME/.cache/zsh" ]; then
         mkdir -p $HOME/.cache/zsh
