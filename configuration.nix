@@ -1,4 +1,10 @@
 { config, pkgs, ... }:
+let
+  unstable = import
+    (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/master)
+    # reuse the current configuration
+    { config = config.nixpkgs.config; };
+in 
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -149,8 +155,8 @@
 
       # Compilers/Interpreters
       pkgs.lua
-      pkgs.nil
       pkgs.nodejs
+      unstable.nil
 
       # Terminal Emulators
       pkgs.kitty
