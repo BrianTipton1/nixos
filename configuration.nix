@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 let
   unstable = import
-    (builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/master)
+    (builtins.fetchTarball "https://github.com/nixos/nixpkgs/tarball/master")
     # reuse the current configuration
     { config = config.nixpkgs.config; };
 in 
@@ -107,6 +107,7 @@ in
       pkgs.capitaine-cursors
       pkgs.gnomeExtensions.dark-variant     
       pkgs.gnomeExtensions.sur-clock   
+      pkgs.gnomeExtensions.color-picker
       
       # IDE's
       pkgs.jetbrains.pycharm-professional
@@ -217,6 +218,7 @@ in
       copy = "wl-copy";
       repl = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
       mkJup = "docker run -v \"\${PWD}\":/home/jovyan/work -p 8888:8888 jupyter/datascience-notebook";
+      nix-editor = "nix-shell --command \"subl $PWD; return\"";
     };
     
     ohMyZsh = {
