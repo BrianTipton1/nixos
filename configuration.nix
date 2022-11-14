@@ -37,17 +37,13 @@ in
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   # Required for nvidia with wayland to load drm mod 
   boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  hardware.nvidia.powerManagement.enable = true;
   ### End Nvidia Setup
   
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  # Disable Some Default Gnome Apps
-  environment.gnome.excludePackages = [ 
-    pkgs.gnome.geary
-    pkgs.gnome-console
-  ];
-
+  # KDE Plasma Setup
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+  
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
@@ -87,7 +83,6 @@ in
       pkgs.bitwarden
       pkgs.qbittorrent
       pkgs.mullvad-vpn
-      pkgs.flameshot
 
       # Office Tooling 
       pkgs.libreoffice
@@ -95,20 +90,6 @@ in
       # Voice/Video Call      
       pkgs.zoom-us
 
-      # Gnome Extensions/Themes
-      pkgs.graphite-gtk-theme
-      pkgs.tela-circle-icon-theme
-      gnomeExtensions.appindicator
-      pkgs.gnomeExtensions.dash-to-dock
-      pkgs.gnomeExtensions.clipboard-history
-      pkgs.gnome.gnome-tweaks
-      pkgs.whitesur-gtk-theme
-      pkgs.whitesur-icon-theme
-      pkgs.capitaine-cursors
-      pkgs.gnomeExtensions.dark-variant     
-      pkgs.gnomeExtensions.sur-clock   
-      pkgs.gnomeExtensions.color-picker
-      
       # IDE's
       pkgs.jetbrains.pycharm-professional
       pkgs.jetbrains.idea-ultimate
@@ -150,7 +131,6 @@ in
       pkgs.github-desktop
       pkgs.cachix
       pkgs.direnv
-
       #Fonts
       pkgs.jetbrains-mono
       pkgs.nerdfonts
