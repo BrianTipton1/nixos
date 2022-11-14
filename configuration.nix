@@ -76,7 +76,7 @@ in
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
-      
+      firefox-wayland
       # School
       pkgs.anki-bin      
 
@@ -116,6 +116,7 @@ in
       
       # Audio
       pkgs.rnnoise-plugin
+
     ];
   };
 
@@ -161,6 +162,7 @@ in
 
       # Terminal Emulators
       pkgs.kitty
+      unstable.wezterm
   ];
 
   # Need this with appindicator https://nixos.wiki/wiki/GNOME
@@ -213,12 +215,14 @@ in
       cat = "bat";
       nuke = "rm -rf";
       update = "sudo nixos-rebuild switch";
+      upgrade = "sudo nixos-rebuild switch --upgrade";
       sysadmin = "sudo cp /etc/nixos/configuration.nix $HOME/Developer/nixos/ && sudo cp /etc/nixos/flake.nix $HOME/Developer/nixos/ && cd $HOME/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
       updatedb = "sudo updatedb";
       copy = "wl-copy";
-      repl = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
+      ipython = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
       mkJup = "docker run -v \"\${PWD}\":/home/jovyan/work -p 8888:8888 jupyter/datascience-notebook";
       nix-editor = "nix-shell --command \"subl $PWD; return\"";
+      repl = "nix-shell $HOME/Developer/NixShells/ghci/shell.nix --command ghci";
     };
     
     ohMyZsh = {
@@ -242,7 +246,7 @@ in
 
     loginShellInit = 
     ''
-    export ZSHZ_DATA="$HOME/.cache/zsh/.z"
+    export ZSHZ_DATA="~/.cache/zsh/.z"
     # Create a cache folder for zcompdump if it isn't exists
     if [ ! -d "$HOME/.cache/zsh" ]; then
         mkdir -p $HOME/.cache/zsh
