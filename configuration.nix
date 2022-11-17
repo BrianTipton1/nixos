@@ -1,9 +1,6 @@
 { config, pkgs, ... }:
 let
-  unstable = import
-    (builtins.fetchTarball "https://github.com/nixos/nixpkgs/tarball/master")
-    # reuse the current configuration
-    { config = config.nixpkgs.config; };
+  unstable = import <nixos-unstable> {};
 in 
 {
   imports =
@@ -40,6 +37,9 @@ in
   hardware.nvidia.powerManagement.enable = true;
   ### End Nvidia Setup
   
+  # Xmonad
+  services.xserver.windowManager.xmonad.enable = true;
+
   # KDE Plasma Setup
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
@@ -75,7 +75,6 @@ in
       firefox-wayland
       # School
       pkgs.anki-bin      
-
       # Email
       pkgs.thunderbird
 
@@ -89,7 +88,7 @@ in
 
       # Voice/Video Call      
       pkgs.zoom-us
-
+      
       # IDE's
       pkgs.jetbrains.pycharm-professional
       pkgs.jetbrains.idea-ultimate
@@ -110,7 +109,6 @@ in
       # Editors
       pkgs.neovim
       pkgs.sublime4
-      pkgs.vscode
       
       # Utilities
       wget
@@ -142,7 +140,7 @@ in
 
       # Terminal Emulators
       pkgs.kitty
-      unstable.wezterm
+      pkgs.wezterm
   ];
 
   # Need this with appindicator https://nixos.wiki/wiki/GNOME
@@ -196,7 +194,7 @@ in
       nuke = "rm -rf";
       update = "sudo nixos-rebuild switch";
       upgrade = "sudo nixos-rebuild switch --upgrade";
-      sysadmin = "sudo cp /etc/nixos/configuration.nix $HOME/Developer/nixos/ && sudo cp /etc/nixos/flake.nix $HOME/Developer/nixos/ && cd $HOME/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
+      sysadmin = "sudo cp /etc/nixos/configuration.nix $HOME/Developer/nixos/ && cd $HOME/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
       updatedb = "sudo updatedb";
       copy = "wl-copy";
       ipython = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
@@ -226,7 +224,7 @@ in
 
     loginShellInit = 
     ''
-    export ZSHZ_DATA="~/.cache/zsh/.z"
+    export ZSHZ_DATA="$HOME/.cache/zsh/.z"
     # Create a cache folder for zcompdump if it isn't exists
     if [ ! -d "$HOME/.cache/zsh" ]; then
         mkdir -p $HOME/.cache/zsh
@@ -251,4 +249,7 @@ in
 
   # Trust Users for cachix use
   nix.settings.trusted-users = [ "root" "brian" ];
+
+  # Compression
+  nix.settings.auto-optimise-store = true;
 }
