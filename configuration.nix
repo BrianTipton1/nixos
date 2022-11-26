@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  unstable = import <nixos-unstable> {};
+  unstable = import <nixos-unstable> { config.allowUnfree = true; };
 in 
 {
   imports =
@@ -71,8 +71,10 @@ in
     shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
+      #Browsers
       firefox
       firefox-wayland
+      
       # School
       pkgs.anki-bin      
       # Email
@@ -82,6 +84,7 @@ in
       pkgs.bitwarden
       pkgs.qbittorrent
       pkgs.mullvad-vpn
+      pkgs.xclip
 
       # Office Tooling 
       pkgs.libreoffice
@@ -93,10 +96,18 @@ in
       pkgs.jetbrains.pycharm-professional
       pkgs.jetbrains.idea-ultimate
       pkgs.jetbrains.rider
+      pkgs.libsForQt5.kate
+      unstable.vscode
       
       # Audio
       pkgs.rnnoise-plugin
+      
+      # Screen Capture
+      pkgs.obs-studio
 
+      # Photo/Video Edit
+      pkgs.libsForQt5.kdenlive
+      pkgs.gimp
     ];
   };
 
@@ -129,6 +140,7 @@ in
       pkgs.github-desktop
       pkgs.cachix
       pkgs.direnv
+      
       #Fonts
       pkgs.jetbrains-mono
       pkgs.nerdfonts
@@ -196,7 +208,7 @@ in
       upgrade = "sudo nixos-rebuild switch --upgrade";
       sysadmin = "sudo cp /etc/nixos/configuration.nix $HOME/Developer/nixos/ && cd $HOME/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
       updatedb = "sudo updatedb";
-      copy = "wl-copy";
+      copy = "xclip -selection c";
       ipython = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
       mkJup = "docker run -v \"\${PWD}\":/home/jovyan/work -p 8888:8888 jupyter/datascience-notebook";
       nix-editor = "nix-shell --command \"subl $PWD; return\"";
