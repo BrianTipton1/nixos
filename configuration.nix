@@ -108,6 +108,20 @@ in
       # Photo/Video Edit
       pkgs.libsForQt5.kdenlive
       pkgs.gimp
+
+      # Emulators
+      (retroarch.override {
+        cores = [
+          libretro.dolphin
+          libretro.snes9x
+          libretro.mupen64plus
+          libretro.mgba
+        ];
+      })
+      libretro.dolphin
+      libretro.snes9x
+      libretro.mupen64plus
+      libretro.mgba
     ];
   };
 
@@ -153,6 +167,7 @@ in
       # Terminal Emulators
       pkgs.kitty
       pkgs.wezterm
+
   ];
 
   # Need this with appindicator https://nixos.wiki/wiki/GNOME
@@ -206,7 +221,8 @@ in
       nuke = "rm -rf";
       update = "sudo nixos-rebuild switch";
       upgrade = "sudo nixos-rebuild switch --upgrade";
-      sysadmin = "sudo cp /etc/nixos/configuration.nix $HOME/Developer/nixos/ && cd $HOME/Developer/nixos/ && git add . && EDITOR=nvim git commit && git push";
+      sysadmin = "sudo cp $HOME/Developer/nixos/configuration.nix /etc/nixos/configuration.nix && sudo nixos-rebuild switch";
+      sysedit = "cd $HOME/Developer/nixos/ && code .";
       updatedb = "sudo updatedb";
       copy = "xclip -selection c";
       ipython = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
@@ -264,4 +280,23 @@ in
 
   # Compression
   nix.settings.auto-optimise-store = true;
+
+  # Steam/Game Related Settings.. Bluetooth
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
+  services.blueman.enable = true;
+  hardware.bluetooth.enable = true;
+    nixpkgs.config.packageOverrides = pkgs: {
+    steam = pkgs.steam.override {
+      extraPkgs = pkgs: with pkgs; [
+        libgdiplus
+      ];
+    };
+  };
+  hardware.xpadneo.enable = true;
+  ## End Steam
+
 }
