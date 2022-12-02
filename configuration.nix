@@ -12,6 +12,7 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  
 
   networking.hostName = "nixos"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -73,12 +74,12 @@ in
     packages = with pkgs; [
       #Browsers
       firefox
-      firefox-wayland
       
       # School
       pkgs.anki-bin      
       # Email
       pkgs.thunderbird
+      pkgs.birdtray
 
       # Assorted
       pkgs.bitwarden
@@ -170,9 +171,6 @@ in
 
   ];
 
-  # Need this with appindicator https://nixos.wiki/wiki/GNOME
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-
   # List services that you want to enable:
 
   # Mullvad
@@ -196,7 +194,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "22.11"; # Did you read the comment?
   
   ## Default Shell to zsh
   #users.defaultUserShell = pkgs.zsh;
@@ -298,5 +296,4 @@ in
   };
   hardware.xpadneo.enable = true;
   ## End Steam
-
 }
