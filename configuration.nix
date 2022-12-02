@@ -156,9 +156,6 @@ in
       pkgs.cachix
       pkgs.direnv
       
-      #Fonts
-      pkgs.jetbrains-mono
-      pkgs.nerdfonts
 
       # Compilers/Interpreters
       pkgs.lua
@@ -225,7 +222,7 @@ in
       copy = "xclip -selection c";
       ipython = "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
       mkJup = "docker run -v \"\${PWD}\":/home/jovyan/work -p 8888:8888 jupyter/datascience-notebook";
-      nix-editor = "nix-shell --command \"subl $PWD; return\"";
+      nix-editor = "nix-shell --command \"code $PWD; return\"";
       repl = "nix-shell $HOME/Developer/NixShells/ghci/shell.nix --command ghci";
     };
     
@@ -296,4 +293,10 @@ in
   };
   hardware.xpadneo.enable = true;
   ## End Steam
+
+  # Fonts
+  fonts.fonts = with pkgs; [
+    jetbrains-mono
+    nerdfonts
+  ];
 }
