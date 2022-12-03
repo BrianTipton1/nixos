@@ -1,7 +1,4 @@
 { config, pkgs, ... }:
-let
-  unstable = import <nixos-unstable> { config.allowUnfree = true; };
-in 
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -73,7 +70,7 @@ in
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       #Browsers
-      firefox
+      pkgs.firefox
       
       # School
       pkgs.anki-bin      
@@ -98,7 +95,7 @@ in
       pkgs.jetbrains.idea-ultimate
       pkgs.jetbrains.rider
       pkgs.libsForQt5.kate
-      unstable.vscode
+      pkgs.unstable.vscode
       
       # Audio
       pkgs.rnnoise-plugin
@@ -131,13 +128,13 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = [
       # Editors
       pkgs.neovim
       pkgs.sublime4
-      
+
       # Utilities
-      wget
+      pkgs.wget
       pkgs.util-linux
       pkgs.pciutils
       pkgs.bat
@@ -155,17 +152,17 @@ in
       pkgs.github-desktop
       pkgs.cachix
       pkgs.direnv
-      
 
       # Compilers/Interpreters
       pkgs.lua
       pkgs.nodejs
-      unstable.nil
+
+      # Global Language Servers
+      pkgs.unstable.nil
 
       # Terminal Emulators
       pkgs.kitty
       pkgs.wezterm
-
   ];
 
   # List services that you want to enable:
@@ -216,7 +213,7 @@ in
       nuke = "rm -rf";
       update = "sudo nixos-rebuild switch";
       upgrade = "sudo nixos-rebuild switch --upgrade";
-      sysadmin = "sudo cp $HOME/Developer/nixos/configuration.nix /etc/nixos/configuration.nix && sudo nixos-rebuild switch";
+      sysadmin = "sudo cp $HOME/Developer/nixos/configuration.nix /etc/nixos/configuration.nix && sudo cp $HOME/Developer/nixos/flake.nix /etc/nixos/flake.nix && sudo nixos-rebuild switch";
       sysedit = "cd $HOME/Developer/nixos/ && code .";
       updatedb = "sudo updatedb";
       copy = "xclip -selection c";
