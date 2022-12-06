@@ -64,25 +64,32 @@
     isNormalUser = true;
     description = "brian";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "scanner" "lp"];
     packages = with pkgs; [
       #Browsers
       pkgs.firefox
+      pkgs.qutebrowser
 
       # School
       pkgs.anki-bin
+
       # Email
       pkgs.thunderbird
       pkgs.birdtray
 
       # Assorted
       pkgs.bitwarden
+      pkgs.bitwarden-cli
       pkgs.qbittorrent
       pkgs.mullvad-vpn
       pkgs.xclip
+      pkgs.rofi
+      pkgs.keyutils
 
       # Office Tooling 
       pkgs.libreoffice
+      pkgs.libsForQt5.skanlite
+      pkgs.poppler_utils
 
       # Voice/Video Call      
       pkgs.zoom-us
@@ -290,6 +297,20 @@
   hardware.xpadneo.enable = true;
   ## End Steam
 
+  # Scanning
+  hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ];
+  hardware.sane.enable = true;
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
+
   # Fonts
   fonts.fonts = with pkgs; [ jetbrains-mono nerdfonts ];
+
+  # Enable DRM Content with qutebrowser
+  nixpkgs.overlays = [
+    (final: prev: {
+      qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
+    })
+  ];
 }
+
