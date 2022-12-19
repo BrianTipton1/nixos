@@ -64,7 +64,7 @@
     isNormalUser = true;
     description = "brian";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "docker" "scanner" "lp"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "scanner" "lp" ];
     packages = with pkgs; [
       #Browsers
       pkgs.firefox
@@ -72,6 +72,7 @@
 
       # School
       pkgs.anki-bin
+      pkgs.obsidian
 
       # Email
       pkgs.thunderbird
@@ -98,7 +99,7 @@
       pkgs.jetbrains.pycharm-professional
       pkgs.jetbrains.idea-ultimate
       pkgs.jetbrains.rider
-      pkgs.libsForQt5.kate
+      pkgs.jetbrains.clion
       pkgs.unstable.vscode
 
       # Audio
@@ -216,10 +217,10 @@
       rg = "rg -i";
       cat = "bat";
       nuke = "rm -rf";
-      update = "sudo nixos-rebuild switch";
-      upgrade = "sudo nixos-rebuild switch --upgrade";
+      update = "sudo nixos-rebuild switch --verbose";
+      upgrade = "sudo nixos-rebuild switch --upgrade --verbose";
       sysadmin =
-        "sudo cp $HOME/Developer/nixos/configuration.nix /etc/nixos/configuration.nix && sudo cp $HOME/Developer/nixos/flake.nix /etc/nixos/flake.nix && sudo nixos-rebuild switch";
+        "sudo cp $HOME/Developer/nixos/configuration.nix /etc/nixos/configuration.nix && sudo cp $HOME/Developer/nixos/flake.nix /etc/nixos/flake.nix && sudo nixos-rebuild switch --verbose";
       sysedit = "cd $HOME/Developer/nixos/ && code .";
       updatedb = "sudo updatedb";
       copy = "xclip -selection c";
