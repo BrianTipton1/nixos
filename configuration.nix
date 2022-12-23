@@ -27,8 +27,7 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  # Required for nvidia with wayland to load drm mod 
-  boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  # boot.kernelParams = [ "nvidia-drm.modeset=1" ];
   hardware.nvidia.powerManagement.enable = true;
   ### End Nvidia Setup
 
@@ -100,7 +99,7 @@
       pkgs.jetbrains.idea-ultimate
       pkgs.jetbrains.rider
       pkgs.jetbrains.clion
-      pkgs.unstable.vscode
+      pkgs.unstable.vscode.fhs
 
       # Audio
       pkgs.rnnoise-plugin
@@ -159,7 +158,7 @@
     pkgs.direnv
 
     # Compilers/Interpreters
-    pkgs.lua
+    pkgs.lua5_4
     pkgs.nodejs
 
     # Global Language Servers/ Formatters
@@ -231,6 +230,7 @@
       nix-editor = ''nix-shell --command "code $PWD; return"'';
       repl =
         "nix-shell $HOME/Developer/NixShells/ghci/shell.nix --command ghci";
+      ns = "nix-shell";
     };
 
     ohMyZsh = {
