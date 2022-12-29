@@ -110,6 +110,7 @@
       # Photo/Video Edit
       pkgs.libsForQt5.kdenlive
       pkgs.gimp
+      pkgs.vlc
 
       # Emulators
       (retroarch.override {
@@ -124,6 +125,9 @@
       libretro.snes9x
       libretro.mupen64plus
       libretro.mgba
+
+      # Non-Steam Games
+      pkgs.xivlauncher
     ];
   };
 
@@ -171,6 +175,10 @@
   ];
 
   # List services that you want to enable:
+
+  # Flatpak
+  services.flatpak.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   # Mullvad
   services.mullvad-vpn.enable = true;
@@ -231,6 +239,7 @@
       repl =
         "nix-shell $HOME/Developer/NixShells/ghci/shell.nix --command ghci";
       ns = "nix-shell";
+      webcord = "flatpak run io.github.spacingbat3.webcord";
     };
 
     ohMyZsh = {
@@ -313,5 +322,30 @@
       qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
     })
   ];
+  # File Systems
+  system.fsPackages = [ pkgs.bindfs ];
+  fileSystems = let
+    # Internal 2TB SSD
+    "/home/brian/drive_two" = {
+      device = "/dev/disk/by-uuid/98f3c60b-2788-4116-9cca-bed48c2bc0bd";
+      fsType = "ext4";
+      options = [ "nofail" ];
+    };
+    # Setup for fonts, icons for flatpak to find
+    mkRoSymBind = path: {
+      device = path;
+      fsType = "fuse.bindfs";
+      options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
+    };
+    aggregatedFonts = pkgs.buildEnv {
+      name = "system-fonts";
+      paths = config.fonts.fonts;
+      pathsToLink = [ "/share/fonts" ];
+    };
+  in {
+    # Create an FHS mount to support flatpak host icons/fonts
+    "/usr/share/icons" = mkRoSymBind (config.system.path + "/share/icons");
+    "/usr/share/fonts" = mkRoSymBind (aggregatedFonts + "/share/fonts");
+  };
 }
 
