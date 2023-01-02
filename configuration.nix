@@ -8,6 +8,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
+  # Allow for mounting NTFS drive
+  boot.supportedFilesystems = [ "ntfs" ];
+
   networking.hostName = "nixos"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -37,6 +40,7 @@
   # KDE Plasma Setup
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+  # programs.kdeconnect.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -68,6 +72,7 @@
       #Browsers
       pkgs.firefox
       pkgs.qutebrowser
+      pkgs.ungoogled-chromium
 
       # School
       pkgs.anki-bin
@@ -85,6 +90,7 @@
       pkgs.xclip
       pkgs.rofi
       pkgs.keyutils
+      pkgs.unstable.d2
 
       # Office Tooling 
       pkgs.libreoffice
@@ -101,6 +107,10 @@
       pkgs.jetbrains.clion
       pkgs.unstable.vscode.fhs
 
+      # Latex
+      pkgs.kile
+      pkgs.texlive.combined.scheme-full
+
       # Audio
       pkgs.rnnoise-plugin
 
@@ -113,21 +123,14 @@
       pkgs.vlc
 
       # Emulators
-      (retroarch.override {
-        cores = [
-          libretro.dolphin
-          libretro.snes9x
-          libretro.mupen64plus
-          libretro.mgba
-        ];
-      })
-      libretro.dolphin
-      libretro.snes9x
-      libretro.mupen64plus
-      libretro.mgba
+      pkgs.mgba
+      pkgs.snes9x
+      pkgs.dolphin-emu
+      pkgs.mupen64plus
 
       # Non-Steam Games
       pkgs.xivlauncher
+      pkgs.bottles
     ];
   };
 
@@ -149,7 +152,6 @@
     pkgs.exa
     pkgs.fzf
     pkgs.git
-    pkgs.killall
     pkgs.clamav
     pkgs.unzip
     pkgs.sublime-merge
@@ -160,6 +162,8 @@
     pkgs.github-desktop
     pkgs.cachix
     pkgs.direnv
+    pkgs.libsForQt5.ark
+    pkgs.flatpak-builder
 
     # Compilers/Interpreters
     pkgs.lua5_4
@@ -175,6 +179,11 @@
   ];
 
   # List services that you want to enable:
+
+  # Remote Desktop for lan
+  #services.xrdp.enable = true;
+  #services.xrdp.defaultWindowManager = "startplasma-x11";
+  #networking.firewall.allowedTCPPorts = [ 3389 ];
 
   # Flatpak
   services.flatpak.enable = true;
@@ -245,7 +254,7 @@
     ohMyZsh = {
       enable = true;
       plugins = [ "git" "sudo" "fzf" "z" ];
-      theme = "half-life";
+      theme = "af-magic";
     };
     enableGlobalCompInit = false;
 
@@ -306,6 +315,10 @@
   };
   hardware.xpadneo.enable = true;
   ## End Steam
+
+  ## Epic Games
+  hardware.opengl.driSupport32Bit = true;
+  ##
 
   # Scanning
   hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ];
