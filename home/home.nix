@@ -5,6 +5,7 @@
     ./programs/wezterm/wezterm.nix
     ./programs/editors/neovim/neovim.nix
     ./programs/editors/vscode/vscode.nix
+    ./programs/pipewire/rnoise-plugin.nix
   ];
 
   home.username = "brian";
