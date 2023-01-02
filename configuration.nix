@@ -1,7 +1,5 @@
 { config, pkgs, ... }: {
-  imports = [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
+  imports = [ ./hardware-configuration.nix ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -76,43 +74,34 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = [
+  environment.systemPackages = with pkgs; [
     # Editors
-    pkgs.neovim
-    pkgs.sublime4
+    neovim
 
     # Utilities
-    pkgs.wget
-    pkgs.util-linux
-    pkgs.pciutils
-    pkgs.bat
-    pkgs.exa
-    pkgs.fzf
-    pkgs.git
-    pkgs.clamav
-    pkgs.unzip
-    pkgs.sublime-merge
-    pkgs.wl-clipboard
-    pkgs.ripgrep
-    pkgs.htop
-    pkgs.file
-    pkgs.github-desktop
-    pkgs.cachix
-    pkgs.direnv
-    pkgs.libsForQt5.ark
-    pkgs.flatpak-builder
-
-    # Compilers/Interpreters
-    pkgs.lua5_4
-    pkgs.nodejs
-
-    # Global Language Servers/ Formatters
-    pkgs.unstable.nil
-    pkgs.nixfmt
+    wget
+    util-linux
+    pciutils
+    bat
+    exa
+    fzf
+    git
+    clamav
+    unzip
+    sublime-merge
+    wl-clipboard
+    ripgrep
+    htop
+    file
+    github-desktop
+    cachix
+    direnv
+    libsForQt5.ark
+    flatpak-builder
 
     # Terminal Emulators
-    pkgs.kitty
-    pkgs.wezterm
+    kitty
+    wezterm
   ];
 
   # List services that you want to enable:
@@ -228,6 +217,13 @@
     # Create an FHS mount to support flatpak host icons/fonts
     "/usr/share/icons" = mkRoSymBind (config.system.path + "/share/icons");
     "/usr/share/fonts" = mkRoSymBind (aggregatedFonts + "/share/fonts");
+  };
+
+  # Auto garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 7d";
   };
 }
 

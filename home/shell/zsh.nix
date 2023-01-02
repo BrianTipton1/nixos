@@ -19,10 +19,8 @@
       nuke = "rm -rf";
       update = "sudo nixos-rebuild switch --verbose";
       upgrade = "sudo nixos-rebuild switch --upgrade --verbose";
-      # sysadmin =
-      #   "sudo cp $HOME/Developer/nixos/configuration.nix /etc/nixos/configuration.nix && sudo cp $HOME/Developer/nixos/flake.nix /etc/nixos/flake.nix && sudo nixos-rebuild switch --verbose";
       sysadmin =
-        "cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild switch --verbose";
+        "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild switch --verbose";
       sysedit = "cd $HOME/Developer/nixos/ && code .";
       updatedb = "sudo updatedb";
       copy = "xclip -selection c";
