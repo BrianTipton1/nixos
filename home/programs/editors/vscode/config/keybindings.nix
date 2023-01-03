@@ -26,4 +26,8 @@
     key = "ctrl+b";
     command = "-workbench.action.toggleSidebarVisibility";
   }
+  {
+    key = "ctrl+shift+[";
+    command = "workbench.files.action.collapseExplorerFolders";
+  }
 ]

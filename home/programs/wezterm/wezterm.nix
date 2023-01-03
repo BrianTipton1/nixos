@@ -4,7 +4,8 @@
     extraConfig = let
       wezRequire = module:
         builtins.readFile (builtins.toString ./config + "/${module}.lua");
-      luaConfig = builtins.concatStringsSep "\n" (map wezRequire [ "wezterm" ]);
+      luaConfig = builtins.concatStringsSep "\n"
+        (map wezRequire [ "imports" "keys" "wezterm" ]);
     in ''
       ${luaConfig}
     '';

@@ -8,6 +8,7 @@ let
     rm -f ~/.wget-hsts
     rm -f ~/.python_history
     rm -f ~/.bash_history
+    rm -f ~/.viminfo
     rm -rf ~/.npm
   '';
 in {

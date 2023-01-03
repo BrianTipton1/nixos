@@ -95,6 +95,7 @@
     direnv
     libsForQt5.ark
     flatpak-builder
+    libsForQt5.ksystemlog
 
     # Terminal Emulators
     kitty
@@ -192,29 +193,29 @@
   ];
   # File Systems
   system.fsPackages = [ pkgs.bindfs ];
-  fileSystems = let
+  fileSystems.# = let
     # Internal 2TB SSD
     "/home/brian/drive_two" = {
       device = "/dev/disk/by-uuid/98f3c60b-2788-4116-9cca-bed48c2bc0bd";
       fsType = "ext4";
       options = [ "nofail" ];
     };
-    # Setup for fonts, icons for flatpak to find
-    mkRoSymBind = path: {
-      device = path;
-      fsType = "fuse.bindfs";
-      options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
-    };
-    aggregatedFonts = pkgs.buildEnv {
-      name = "system-fonts";
-      paths = config.fonts.fonts;
-      pathsToLink = [ "/share/fonts" ];
-    };
-  in {
-    # Create an FHS mount to support flatpak host icons/fonts
-    "/usr/share/icons" = mkRoSymBind (config.system.path + "/share/icons");
-    "/usr/share/fonts" = mkRoSymBind (aggregatedFonts + "/share/fonts");
-  };
+  #   # Setup for fonts, icons for flatpak to find
+  #   mkRoSymBind = path: {
+  #     device = path;
+  #     fsType = "fuse.bindfs";
+  #     options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
+  #   };
+  #   aggregatedFonts = pkgs.buildEnv {
+  #     name = "system-fonts";
+  #     paths = config.fonts.fonts;
+  #     pathsToLink = [ "/share/fonts" ];
+  #   };
+  # in {
+  #   # Create an FHS mount to support flatpak host icons/fonts
+  #   "/usr/share/icons" = mkRoSymBind (config.system.path + "/share/icons");
+  #   "/usr/share/fonts" = mkRoSymBind (aggregatedFonts + "/share/fonts");
+  # };
 
   # Auto garbage collection
   nix.gc = {

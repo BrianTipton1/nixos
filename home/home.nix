@@ -5,7 +5,9 @@
     ./programs/wezterm/wezterm.nix
     ./programs/editors/neovim/neovim.nix
     ./programs/editors/vscode/vscode.nix
+    ./programs/editors/helix/helix.nix
     ./programs/pipewire/rnoise-plugin.nix
+    ./programs/interpreters/ghci/ghci.nix
     ./autostart/programs.nix
     ./services/clean-home.nix
   ];
@@ -36,6 +38,7 @@
     rofi
     keyutils
     unstable.d2
+    jq
 
     # Office Tooling 
     libreoffice
