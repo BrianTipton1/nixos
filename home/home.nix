@@ -6,6 +6,8 @@
     ./programs/editors/neovim/neovim.nix
     ./programs/editors/vscode/vscode.nix
     ./programs/pipewire/rnoise-plugin.nix
+    ./autostart/programs.nix
+    ./services/clean-home.nix
   ];
 
   home.username = "brian";

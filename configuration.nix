@@ -32,9 +32,6 @@
   hardware.nvidia.powerManagement.enable = true;
   ### End Nvidia Setup
 
-  # Xmonad
-  services.xserver.windowManager.xmonad.enable = true;
-
   # KDE Plasma Setup
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;

@@ -4,6 +4,8 @@
     enable = true;
     enableSyntaxHighlighting = true;
     enableAutosuggestions = true;
+    dotDir = ".config/zsh";
+    history.path = "${config.xdg.dataHome}/zsh/zsh_history";
 
     ## Aliases
     shellAliases = {
@@ -40,7 +42,6 @@
       plugins = [ "git" "sudo" "fzf" "z" ];
       theme = "af-magic";
     };
-    completionInit = false;
 
     initExtra = ''
       mkMonad() {
@@ -54,12 +55,12 @@
     '';
 
     loginExtra = ''
-      export ZSHZ_DATA="$HOME/.cache/zsh/.z"
       # Create a cache folder for zcompdump if it isn't exists
       if [ ! -d "$HOME/.cache/zsh" ]; then
           mkdir -p $HOME/.cache/zsh
       fi
-      export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$HOST-$ZSH_VERSION"
+      export ZSHZ_DATA="$HOME/.cache/zsh/.z"
+      # export ZSH_COMPDUMP="$HOME/.cache/zsh/zcompdump-$HOST-$ZSH_VERSION"
     '';
   };
 }
