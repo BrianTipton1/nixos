@@ -4,9 +4,11 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    prismlauncher.url = "github:PrismLauncher/PrismLauncher";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  outputs =
+    { self, nixpkgs, nixpkgs-unstable, home-manager, prismlauncher, ... }:
     let
       system = "x86_64-linux";
       overlay-unstable = final: prev: {
@@ -19,7 +21,9 @@
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-unstable ]; })
+          ({ config, pkgs, ... }: {
+            nixpkgs.overlays = [ overlay-unstable prismlauncher.overlay ];
+          })
           ./configuration.nix
           home-manager.nixosModules.home-manager
           {

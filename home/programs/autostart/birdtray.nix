@@ -4,7 +4,7 @@
     "autostart/com.ulduzsoft.Birdtray.desktop".text = ''
       [Desktop Entry]
       Categories=Network;Email;
-      Exec=birdtray
+      Exec=XDG_SESSION_TYPE=x11 birdtray
       Icon=com.ulduzsoft.Birdtray
       Keywords=Email;E-mail;Newsgroup;Feed;RSS
       Name=Birdtray

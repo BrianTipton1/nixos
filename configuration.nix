@@ -82,7 +82,6 @@
     description = "brian";
     shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" "docker" "scanner" "lp" ];
-    packages = with pkgs; [ ];
   };
 
   # Allow unfree packages

@@ -16,6 +16,8 @@
         sumneko.lua
         catppuccin.catppuccin-vsc
         haskell.haskell
+        mads-hartmann.bash-ide-vscode
+        foxundermoon.shell-format
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "ayu";

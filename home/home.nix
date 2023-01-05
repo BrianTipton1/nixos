@@ -1,16 +1,5 @@
 { config, pkgs, ... }: {
-  imports = [
-    ./shell/zsh.nix
-    ./programs/git/git.nix
-    ./programs/wezterm/wezterm.nix
-    ./programs/editors/neovim/neovim.nix
-    ./programs/editors/vscode/vscode.nix
-    ./programs/editors/helix/helix.nix
-    ./programs/pipewire/rnoise-plugin.nix
-    ./programs/interpreters/ghci/ghci.nix
-    ./autostart/programs.nix
-    ./services/clean-home.nix
-  ];
+  imports = [ ./shell ./programs ./services ];
 
   home.username = "brian";
   home.homeDirectory = "/home/brian";
@@ -28,6 +17,7 @@
     # Email
     thunderbird
     birdtray
+    neomutt
 
     # Assorted
     bitwarden
@@ -77,10 +67,13 @@
 
     # Non-Steam Games
     xivlauncher
+    prismlauncher
 
     # Interpreters
     lua5_4
   ];
+
+  home.sessionVariables.NIXOS_OZONE_WL = "1";
 
   home.stateVersion = "22.11";
   programs.home-manager.enable = true;
