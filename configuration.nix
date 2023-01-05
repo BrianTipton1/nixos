@@ -28,14 +28,33 @@
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  # boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  # hardware.nvidia.open = true;
   hardware.nvidia.powerManagement.enable = true;
   ### End Nvidia Setup
+  # Wayland
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  # Gtk theming in wayland
+  programs.dconf.enable = true;
+
+  #
+
+  # Obs-Studio Virtual Camera
+  boot.extraModulePackages = with config.boot.kernelPackages;
+    [ v4l2loopback.out ];
+
+  # Activate kernel modules (choose from built-ins and extra ones)
+  boot.kernelModules = [ "v4l2loopback" "snd-aloop" ];
+
+  # Set initial kernel module settings
+  boot.extraModprobeConfig = ''
+    options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
+  '';
+  ## End Obs setup
 
   # KDE Plasma Setup
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
-  # programs.kdeconnect.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -170,6 +189,18 @@
       pkgs.steam.override { extraPkgs = pkgs: with pkgs; [ libgdiplus ]; };
   };
   hardware.xpadneo.enable = true;
+  # Glorious Egg Roll Setup
+  environment.sessionVariables = rec {
+    XDG_CACHE_HOME = "\${HOME}/.cache";
+    XDG_CONFIG_HOME = "\${HOME}/.config";
+    XDG_BIN_HOME = "\${HOME}/.local/bin";
+    XDG_DATA_HOME = "\${HOME}/.local/share";
+    # Steam needs this to find Proton-GE
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS =
+      "\${HOME}/.steam/root/compatibilitytools.d";
+    # note: this doesn't replace PATH, it just adds this to it
+    PATH = [ "\${XDG_BIN_HOME}" ];
+  };
   ## End Steam
 
   ## Epic Games
@@ -193,29 +224,29 @@
   ];
   # File Systems
   system.fsPackages = [ pkgs.bindfs ];
-  fileSystems.# = let
+  fileSystems = let # = let
     # Internal 2TB SSD
     "/home/brian/drive_two" = {
       device = "/dev/disk/by-uuid/98f3c60b-2788-4116-9cca-bed48c2bc0bd";
       fsType = "ext4";
       options = [ "nofail" ];
     };
-  #   # Setup for fonts, icons for flatpak to find
-  #   mkRoSymBind = path: {
-  #     device = path;
-  #     fsType = "fuse.bindfs";
-  #     options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
-  #   };
-  #   aggregatedFonts = pkgs.buildEnv {
-  #     name = "system-fonts";
-  #     paths = config.fonts.fonts;
-  #     pathsToLink = [ "/share/fonts" ];
-  #   };
-  # in {
-  #   # Create an FHS mount to support flatpak host icons/fonts
-  #   "/usr/share/icons" = mkRoSymBind (config.system.path + "/share/icons");
-  #   "/usr/share/fonts" = mkRoSymBind (aggregatedFonts + "/share/fonts");
-  # };
+    # Setup for fonts, icons for flatpak to find
+    mkRoSymBind = path: {
+      device = path;
+      fsType = "fuse.bindfs";
+      options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
+    };
+    aggregatedFonts = pkgs.buildEnv {
+      name = "system-fonts";
+      paths = config.fonts.fonts;
+      pathsToLink = [ "/share/fonts" ];
+    };
+  in {
+    # Create an FHS mount to support flatpak host icons/fonts
+    "/usr/share/icons" = mkRoSymBind (config.system.path + "/share/icons");
+    "/usr/share/fonts" = mkRoSymBind (aggregatedFonts + "/share/fonts");
+  };
 
   # Auto garbage collection
   nix.gc = {
