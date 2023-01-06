@@ -1,6 +1,6 @@
 return {
-  color_scheme = "Ayu Mirage",
-  check_for_updates = false,
-  enable_wayland = false,
-  keys = keys
+	color_scheme = "Ayu Mirage",
+	check_for_updates = false,
+	enable_wayland = false,
+	keys = keys,
 }

@@ -38,11 +38,12 @@
     # Voice/Video Call      
     zoom-us
 
-    # IDE's
+    # IDE's / Development
     jetbrains.pycharm-professional
     jetbrains.idea-ultimate
     jetbrains.rider
     jetbrains.clion
+    lazygit
 
     # Latex
     kile

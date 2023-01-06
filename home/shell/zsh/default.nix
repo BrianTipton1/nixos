@@ -46,16 +46,7 @@
       theme = "af-magic";
     };
 
-    initExtra = ''
-      mkMonad() {
-          if [ -z "$1" ]
-          then 
-            echo "No argument supplied for mkMonad"
-          else 
-            mkdir "$1" && cd "$1" && nix-shell -p "haskellPackages.ghcWithPackages (pkgs: with pkgs; [ cabal-install ])" --run "cabal init" && cp $HOME/Developer/NixShells/HaskellBase/default.nix .
-          fi
-      }
-    '';
+    initExtra = builtins.readFile ./init.sh;
 
     loginExtra = ''
       # Create a cache folder for zcompdump if it isn't exists

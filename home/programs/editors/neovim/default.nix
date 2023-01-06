@@ -8,6 +8,7 @@
       stylua
       jq
       nixfmt
+      lazygit
     ];
     plugins = with pkgs.vimPlugins; [
       telescope-nvim
@@ -26,6 +27,9 @@
       comment-nvim
       nvim-autopairs
       lualine-nvim
+      gitsigns-nvim
+      toggleterm-nvim
+      vim-tmux-navigator
     ];
     extraConfig = let
       files = lib.filesystem.listFilesRecursive ./config;
@@ -35,6 +39,7 @@
         ---------------
       '' (map luaRequire files);
     in ''
+      set clipboard+=unnamedplus
       colorscheme catppuccin-frappe
       :lua << EOF
       ${luaConfig}
