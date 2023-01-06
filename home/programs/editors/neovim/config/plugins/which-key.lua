@@ -4,6 +4,7 @@ wk.setup({})
 local options = { noremap = true }
 vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
 vim.keymap.set("i", "jj", "<Esc>", options)
+
 wk.register({
 	["<leader>"] = {
 		f = {
@@ -32,6 +33,7 @@ wk.register({
 			g = { "<cmd>lua _lazygit_toggle()<cr>", "Toggle Terminal Vertical" },
 		},
 		["~"] = { "<cmd>ToggleTerm<cr>", "Toggle Terminal" },
+		["`"] = { "<cmd>ToggleTerm<cr>", "Toggle Terminal" },
 		["-"] = { "<cmd>nohlsearch<cr>", "Remove search highlight" },
 		["/"] = {
 			function()
@@ -57,14 +59,42 @@ wk.register({
 			h = { "<cmd>split && new<cr>", "New Horizontal" },
 			v = { "<cmd>vsplit && new<cr>", "New Vertical" },
 		},
+		["<Tab>"] = {
+			"tabnext<cr>",
+			"Cycle through tabs",
+		},
+	},
+	["<C-f>"] = {
+		"Telescope current_buffer_fuzzy_find",
+		"Fuzzy find in current buffer",
 	},
 })
+
+-- Language Specific keybinds
+--
+--[[ function setKeybinds() ]]
+--[[ local fileTy = vim.api.nvim_buf_get_option(0, "filetype") ]]
+--[[ local opts = { prefix = "<leader>", buffer = 0 } ]]
+
+--[[ if fileTy == "latex" then ]]
+--[[ wk.register({ ]]
+--[[ ["l"] = { { ":wq<cr>", "test write" } }, ]]
+--[[ ["q"] = { ":q<CR>", "test quit" }, ]]
+--[[ }, opts) ]]
+--[[ elseif fileTy == "sh" then ]]
+--[[ wk.register({ ]]
+--[[ ["W"] = { ":w<CR>", "test write" }, ]]
+--[[ ["Q"] = { ":q<CR>", "test quit" }, ]]
+--[[ }, opts) ]]
+--[[ end ]]
+--[[ end ]]
+--[[ vim.cmd("autocmd FileType * lua setKeybinds()") ]]
 
 wk.register({
 	mode = "v",
 	["/"] = {
 		function()
-			require("Comment.api").toggle.linewise(vim.fn.visualmode())
+			require("Comment.api").toggle.blockwise(require("Comment.utils").get_region())
 		end,
 		"toggle comment",
 	},

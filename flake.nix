@@ -5,10 +5,14 @@
     home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs =
-    { self, nixpkgs, nixpkgs-unstable, home-manager, prismlauncher, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager
+    , prismlauncher, hyprland }:
     let
       system = "x86_64-linux";
       overlay-unstable = final: prev: {
@@ -21,15 +25,24 @@
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-          ({ config, pkgs, ... }: {
-            nixpkgs.overlays = [ overlay-unstable prismlauncher.overlay ];
-          })
           ./configuration.nix
+          hyprland.nixosModules.default
+          { programs.hyprland.enable = true; }
+
+          ({ config, pkgs, ... }: {
+            nixpkgs.overlays = [
+              overlay-unstable
+              prismlauncher.overlay
+              hyprland.overlays.default
+            ];
+          })
+
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.brian = import ./home/home.nix;
+            home-manager.extraSpecialArgs = { inherit inputs; };
           }
         ];
       };

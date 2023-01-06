@@ -14,6 +14,7 @@
       telescope-nvim
       nvim-tree-lua
       catppuccin-nvim
+      everforest
       alpha-nvim
       nvim-web-devicons
       which-key-nvim

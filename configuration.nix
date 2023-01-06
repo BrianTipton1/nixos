@@ -55,6 +55,7 @@
   # KDE Plasma Setup
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+  # End Kde
 
   # Configure keymap in X11
   services.xserver = {
@@ -254,4 +255,3 @@
     options = "--delete-older-than 7d";
   };
 }
-
