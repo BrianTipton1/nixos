@@ -1,5 +1,5 @@
 { config, pkgs, ... }: {
-  imports = [ ./shell ./programs ./services ./wayland ];
+  imports = [ ./shell ./programs ./services ];
 
   home.username = "brian";
   home.homeDirectory = "/home/brian";

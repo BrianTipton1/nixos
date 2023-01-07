@@ -5,14 +5,10 @@
     home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager
-    , prismlauncher, hyprland }:
+    , prismlauncher, ... }:
     let
       system = "x86_64-linux";
       overlay-unstable = final: prev: {
@@ -26,15 +22,9 @@
         inherit system;
         modules = [
           ./configuration.nix
-          hyprland.nixosModules.default
-          { programs.hyprland.enable = true; }
 
           ({ config, pkgs, ... }: {
-            nixpkgs.overlays = [
-              overlay-unstable
-              prismlauncher.overlay
-              hyprland.overlays.default
-            ];
+            nixpkgs.overlays = [ overlay-unstable prismlauncher.overlay ];
           })
 
           home-manager.nixosModules.home-manager
