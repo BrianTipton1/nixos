@@ -60,12 +60,12 @@ wk.register({
 			v = { "<cmd>vsplit && new<cr>", "New Vertical" },
 		},
 		["<Tab>"] = {
-			"tabnext<cr>",
+			"<cmd>tabnext<cr>",
 			"Cycle through tabs",
 		},
 	},
 	["<C-f>"] = {
-		"Telescope current_buffer_fuzzy_find",
+		"<cmd>Telescope current_buffer_fuzzy_find<cr>",
 		"Fuzzy find in current buffer",
 	},
 })
@@ -89,13 +89,3 @@ wk.register({
 --[[ end ]]
 --[[ end ]]
 --[[ vim.cmd("autocmd FileType * lua setKeybinds()") ]]
-
-wk.register({
-	mode = "v",
-	["/"] = {
-		function()
-			require("Comment.api").toggle.blockwise(require("Comment.utils").get_region())
-		end,
-		"toggle comment",
-	},
-})

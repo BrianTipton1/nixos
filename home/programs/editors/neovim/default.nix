@@ -41,7 +41,8 @@
       '' (map luaRequire files);
     in ''
       set clipboard+=unnamedplus
-      colorscheme catppuccin-frappe
+      set guifont=JetBrainsMono\ Nerd\ Font\ Mono
+      colorscheme everforest
       :lua << EOF
       ${luaConfig}
       EOF
