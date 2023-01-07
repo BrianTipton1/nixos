@@ -6,6 +6,7 @@
     ./mullvad
     ./pipewire
     ./wezterm
-    # ./autostart
+    ./obsidian
+    ./autostart
   ];
 }

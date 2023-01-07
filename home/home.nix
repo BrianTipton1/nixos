@@ -17,7 +17,6 @@
     # Email
     thunderbird
     birdtray
-    neomutt
 
     # Assorted
     bitwarden
