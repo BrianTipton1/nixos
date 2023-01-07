@@ -34,9 +34,9 @@
   # Wayland
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   boot.kernelParams = [ "nvidia-drm.modeset=1" ];
-  # Gtk theming in wayland
-  programs.dconf.enable = true;
 
+  # Gtk theming in wayland/ Virt-Manager
+  programs.dconf.enable = true;
   #
 
   # Obs-Studio Virtual Camera
@@ -82,7 +82,8 @@
     isNormalUser = true;
     description = "brian";
     shell = pkgs.zsh;
-    extraGroups = [ "networkmanager" "wheel" "docker" "scanner" "lp" ];
+    extraGroups =
+      [ "libvirtd" "networkmanager" "wheel" "docker" "scanner" "lp" ];
   };
 
   # Allow unfree packages
@@ -115,6 +116,7 @@
     libsForQt5.ark
     flatpak-builder
     libsForQt5.ksystemlog
+    virt-manager
 
     # Terminal Emulators
     kitty
@@ -161,6 +163,10 @@
   #virtualisation.virtualbox.guest.enable = true;
   #virtualisation.virtualbox.guest.x11 = true;
   ## End Virtual Box
+
+  # Virt-Manager/libvirtd
+  virtualisation.libvirtd.enable = true;
+  #
 
   ## Docker Setup
   virtualisation.docker.enable = true;

@@ -31,13 +31,14 @@ wk.register({
 			h = { "<cmd>ToggleTerm direction=horizontal<cr>", "Toggle Terminal Horizontal" },
 			v = { "<cmd>ToggleTerm direction=vertical size=50<cr>", "Toggle Terminal Vertical" },
 			g = { "<cmd>lua _lazygit_toggle()<cr>", "Toggle Terminal Vertical" },
+			m = { require("mini.map").toggle, "Toggle Mini Map" },
 		},
 		["~"] = { "<cmd>ToggleTerm<cr>", "Toggle Terminal" },
 		["`"] = { "<cmd>ToggleTerm<cr>", "Toggle Terminal" },
 		["-"] = { "<cmd>nohlsearch<cr>", "Remove search highlight" },
 		["/"] = {
 			function()
-				require("Comment.api").toggle.blockwise()
+				require("Comment.api").toggle.linewise()
 			end,
 			"Toggle Comment",
 		},
@@ -56,8 +57,8 @@ wk.register({
 		b = {
 			name = "Buffer",
 			d = { "<cmd>bd<cr>", "Destroy" },
-			h = { "<cmd>split && new<cr>", "New Horizontal" },
-			v = { "<cmd>vsplit && new<cr>", "New Vertical" },
+			h = { "<cmd>new<cr>", "New Horizontal" },
+			v = { "<cmd>vnew<cr>", "New Vertical" },
 		},
 		["<Tab>"] = {
 			"<cmd>tabnext<cr>",
@@ -70,22 +71,12 @@ wk.register({
 	},
 })
 
--- Language Specific keybinds
---
---[[ function setKeybinds() ]]
---[[ local fileTy = vim.api.nvim_buf_get_option(0, "filetype") ]]
---[[ local opts = { prefix = "<leader>", buffer = 0 } ]]
-
---[[ if fileTy == "latex" then ]]
---[[ wk.register({ ]]
---[[ ["l"] = { { ":wq<cr>", "test write" } }, ]]
---[[ ["q"] = { ":q<CR>", "test quit" }, ]]
---[[ }, opts) ]]
---[[ elseif fileTy == "sh" then ]]
---[[ wk.register({ ]]
---[[ ["W"] = { ":w<CR>", "test write" }, ]]
---[[ ["Q"] = { ":q<CR>", "test quit" }, ]]
---[[ }, opts) ]]
---[[ end ]]
---[[ end ]]
---[[ vim.cmd("autocmd FileType * lua setKeybinds()") ]]
+wk.register({
+	name = "Visual Leader Mappings",
+	["<leader>"] = {
+		["/"] = {
+			"gc",
+			"Toggle comment visual mode",
+		},
+	},
+}, { mode = "v", nowait = true, noremap = false })

@@ -31,6 +31,7 @@
       gitsigns-nvim
       toggleterm-nvim
       vim-tmux-navigator
+      mini-nvim
     ];
     extraConfig = let
       files = lib.filesystem.listFilesRecursive ./config;
