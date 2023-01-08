@@ -5,10 +5,11 @@
     home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     prismlauncher.url = "github:PrismLauncher/PrismLauncher";
+    fennel-ls.url = "github:BrianTipton1/fennel-ls-flake";
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager
-    , prismlauncher, ... }:
+    , prismlauncher, fennel-ls, ... }:
     let
       system = "x86_64-linux";
       overlay-unstable = final: prev: {

@@ -1,6 +1,8 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, inputs, ... }: {
   programs.neovim = {
     enable = true;
+    # defaultEditor = true;
+    extraLuaPackages = with pkgs.lua53Packages; [ fennel ];
     extraPackages = with pkgs; [
       sumneko-lua-language-server
       nodePackages_latest.vscode-json-languageserver
@@ -9,6 +11,8 @@
       jq
       nixfmt
       lazygit
+      fnlfmt
+      inputs.fennel-ls.packages.${pkgs.system}.default
     ];
     plugins = with pkgs.vimPlugins; [
       telescope-nvim
@@ -18,7 +22,7 @@
       alpha-nvim
       nvim-web-devicons
       which-key-nvim
-      nvim-lspconfig
+      pkgs.unstable.vimPlugins.nvim-lspconfig
       vim-nix
       null-ls-nvim
       nvim-cmp
@@ -32,6 +36,8 @@
       toggleterm-nvim
       vim-tmux-navigator
       mini-nvim
+      fennel-vim
+      hotpot-nvim
     ];
     extraConfig = let
       files = lib.filesystem.listFilesRecursive ./config;
