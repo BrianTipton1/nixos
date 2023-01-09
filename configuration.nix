@@ -24,16 +24,22 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  ## Nvidia Setup 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  ## AMD Setup 
+  services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.opengl.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  # hardware.nvidia.open = true;
-  hardware.nvidia.powerManagement.enable = true;
-  ### End Nvidia Setup
-  # Wayland
+  hardware.opengl.driSupport = true;
+  # For 32 bit applications
+  hardware.opengl.driSupport32Bit = true;
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
+  hardware.opengl.extraPackages = with pkgs; [ amdvlk ];
+  # For 32 bit applications 
+  # Only available on unstable
+  hardware.opengl.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+  ## End Amd
+
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  environment.sessionVariables.KWIN_DRM_NO_AMS = "1";
 
   # Gtk theming in wayland/ Virt-Manager
   programs.dconf.enable = true;
@@ -208,10 +214,6 @@
     PATH = [ "\${XDG_BIN_HOME}" ];
   };
   ## End Steam
-
-  ## Epic Games
-  hardware.opengl.driSupport32Bit = true;
-  ##
 
   # Scanning
   hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ];
