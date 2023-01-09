@@ -1,7 +1,6 @@
 { config, pkgs, lib, inputs, ... }: {
   programs.neovim = {
     enable = true;
-    # defaultEditor = true;
     extraLuaPackages = with pkgs.lua53Packages; [ fennel ];
     extraPackages = with pkgs; [
       sumneko-lua-language-server

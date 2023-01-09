@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }: {
+{ config, pkgs, ... }: {
   imports = [ ./shell ./programs ./services ];
 
   home.username = "brian";
@@ -71,7 +71,6 @@
 
     # Interpreters
     lua5_4
-    inputs.fennel-ls.packages.${pkgs.system}.default
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";
