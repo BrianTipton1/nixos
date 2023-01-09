@@ -24,6 +24,8 @@
       sysadmin =
         "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild switch --verbose";
       sysedit = "cd $HOME/Developer/nixos/ && code .";
+      sysboot =
+        "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild boot --verbose";
       updatedb = "sudo updatedb";
       copy = "xclip -selection c";
       ipython =

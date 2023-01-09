@@ -45,6 +45,8 @@
   programs.dconf.enable = true;
   #
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Obs-Studio Virtual Camera
   boot.extraModulePackages = with config.boot.kernelPackages;
     [ v4l2loopback.out ];
