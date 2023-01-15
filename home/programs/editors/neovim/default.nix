@@ -36,6 +36,13 @@
       vim-tmux-navigator
       mini-nvim
       fennel-vim
+      # {
+      #   plugin = builtins.fetchGit {
+      #     url = "https://github.com/terrastruct/d2-vim";
+      #     rev = "ac58c07ba192d215cbbd2b2207f9def808a9283d";
+      #   };
+      #   # config = "let g:startify_change_to_vcs_root = 0";
+      # }
       hotpot-nvim
     ];
     extraConfig = let

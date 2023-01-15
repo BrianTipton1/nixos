@@ -13,6 +13,8 @@
     # School
     anki-bin
     obsidian
+    remmina
+    filezilla
 
     # Email
     thunderbird
@@ -28,13 +30,14 @@
     keyutils
     unstable.d2
     jq
+    mangohud
 
     # Office Tooling 
-    libreoffice
+    libreoffice-qt
     libsForQt5.skanlite
     poppler_utils
-
-    # Voice/Video Call      
+    pdftk
+    # Voice/Video Call
     zoom-us
 
     # IDE's / Development
@@ -71,9 +74,13 @@
 
     # Interpreters
     lua5_4
+
+    # Utilities
+    direnv
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";
+  home.sessionVariables.doom = "1";
 
   home.stateVersion = "22.11";
   programs.home-manager.enable = true;

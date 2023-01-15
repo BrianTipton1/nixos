@@ -120,11 +120,11 @@
     file
     github-desktop
     cachix
-    direnv
     libsForQt5.ark
     flatpak-builder
     libsForQt5.ksystemlog
     virt-manager
+    corectrl
 
     # Terminal Emulators
     kitty
@@ -164,13 +164,6 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
-
-  ## Virtual Box Stuff
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "brian" ];
-  #virtualisation.virtualbox.guest.enable = true;
-  #virtualisation.virtualbox.guest.x11 = true;
-  ## End Virtual Box
 
   # Virt-Manager/libvirtd
   virtualisation.libvirtd.enable = true;
@@ -215,6 +208,7 @@
     # note: this doesn't replace PATH, it just adds this to it
     PATH = [ "\${XDG_BIN_HOME}" ];
   };
+  programs.gamemode.enable = true;
   ## End Steam
 
   # Scanning
@@ -224,7 +218,7 @@
   services.avahi.nssmdns = true;
 
   # Fonts
-  fonts.fonts = with pkgs; [ jetbrains-mono nerdfonts ];
+  fonts.fonts = with pkgs; [ jetbrains-mono nerdfonts openmoji-color ];
 
   # Enable DRM Content with qutebrowser
   nixpkgs.overlays = [

@@ -22,8 +22,8 @@
       update = "sudo nixos-rebuild switch --verbose";
       upgrade = "sudo nixos-rebuild switch --upgrade --verbose";
       sysadmin =
-        "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild switch --verbose";
-      sysedit = "cd $HOME/Developer/nixos/ && code .";
+        "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild switch --verbose && cp /etc/nixos/hardware-configuration.nix $HOME/Developer/nixos/ && cp /etc/nixos/flake.lock $HOME/Developer/nixos/";
+      sysedit = "cd $HOME/Developer/nixos/ && nvim .";
       sysboot =
         "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild boot --verbose";
       updatedb = "sudo updatedb";

@@ -6,10 +6,20 @@ mkMonad() {
     fi
 }
 
-# code() {
-    # if [ -z "$1" ]; then
-        # code > /dev/null 2>&1
-    # else
-        # code "$@" > /dev/null 2>&1
-    # fi
+pdfReverse(){
+    if [ -z "$1" ]; then
+        echo "No argument supplied for pdfReverse"
+    else
+        NAME=$(echo "$1" | sed -e 's/.pdf$//g')
+        echo "$NAME"
+        pdftk "$NAME".pdf cat end-1 output "$NAME"_REVERSED.pdf
+    fi
+}
+
+# emacs() {
+#     if [ -z "$1" ]; then
+#         emacs > /dev/null 2>&1
+#     else
+#         emacs "$@" > /dev/null 2>&1
+#     fi
 # }
