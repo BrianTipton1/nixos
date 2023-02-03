@@ -28,6 +28,7 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.opengl.enable = true;
   hardware.opengl.driSupport = true;
+  hardware.opengl.package = pkgs.unstable.mesa.drivers;
   # For 32 bit applications
   hardware.opengl.driSupport32Bit = true;
   boot.initrd.kernelModules = [ "amdgpu" ];
@@ -45,7 +46,7 @@
   programs.dconf.enable = true;
   #
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   # Obs-Studio Virtual Camera
   boot.extraModulePackages = with config.boot.kernelPackages;
@@ -140,7 +141,8 @@
 
   # Flatpak
   services.flatpak.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.extraPortals =
+    [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-kde ];
 
   # Mullvad
   services.mullvad-vpn.enable = true;
@@ -167,6 +169,7 @@
 
   # Virt-Manager/libvirtd
   virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
   #
 
   ## Docker Setup
@@ -258,4 +261,7 @@
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
+
+  # Need to figure out what has this dependency
+  nixpkgs.config.permittedInsecurePackages = [ "electron-18.1.0" ];
 }

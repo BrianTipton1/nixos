@@ -19,7 +19,8 @@
       rg = "rg -i";
       cat = "bat";
       nuke = "rm -rf";
-      update = "sudo nixos-rebuild switch --verbose";
+      update =
+        "sudo rm /etc/nixos/flake.lock && sudo nixos-rebuild switch --verbose && cp /etc/nixos/flake.lock $HOME/Developer/nixos/";
       upgrade = "sudo nixos-rebuild switch --upgrade --verbose";
       sysadmin =
         "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild switch --verbose && cp /etc/nixos/hardware-configuration.nix $HOME/Developer/nixos/ && cp /etc/nixos/flake.lock $HOME/Developer/nixos/";
@@ -40,6 +41,8 @@
       trashMan = "sudo nix-collect-garbage -d; nix-collect-garbage -d;";
       dockerPurge =
         "docker rm -f $(docker ps -a -q);docker volume rm $(docker volume ls -q);docker system prune -a;";
+      fujiSync = ''
+        cd $HOME/Developer/WebServerDownload/ && nix-shell --command "python main.py"'';
     };
 
     oh-my-zsh = {

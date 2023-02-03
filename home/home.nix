@@ -30,10 +30,9 @@
     keyutils
     unstable.d2
     jq
-    mangohud
 
-    # Office Tooling 
-    libreoffice-qt
+    # Office Tooling
+    unstable.libreoffice-qt
     libsForQt5.skanlite
     poppler_utils
     pdftk
@@ -77,6 +76,10 @@
 
     # Utilities
     direnv
+
+    # Nix lsp/fmt
+    nixfmt
+    unstable.nil
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -84,4 +87,16 @@
 
   home.stateVersion = "22.11";
   programs.home-manager.enable = true;
+
+  # Tmp fix for webcord nonsense
+  home.file."/home/brian/.var/app/io.github.spacingbat3.webcord/config/WebCord/windowState.json".text =
+    ''
+      {
+          "mainWindow": {
+              "width": 952,
+              "height": 757.3333333333333,
+              "isMaximized": true
+          }
+      }
+    '';
 }

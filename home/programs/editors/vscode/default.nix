@@ -2,8 +2,13 @@
   programs.vscode = {
     enable = true;
     enableUpdateCheck = false;
-    package = pkgs.unstable.vscode.fhsWithPackages
-      (ps: with ps; [ pkgs.unstable.nil nixfmt sumneko-lua-language-server ]);
+    package = pkgs.unstable.vscode.fhsWithPackages (ps:
+      with ps; [
+        pkgs.unstable.nil
+        nixfmt
+        sumneko-lua-language-server
+        pkgs.angelscript
+      ]);
     extensions = with pkgs.vscode-extensions;
       [
         ms-azuretools.vscode-docker
