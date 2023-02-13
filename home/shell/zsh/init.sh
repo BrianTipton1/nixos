@@ -27,4 +27,3 @@ pdfPrint(){
 	    rm "$NAME"_REVERSED.pdf
     fi
 }
-eval "$(direnv hook zsh)"

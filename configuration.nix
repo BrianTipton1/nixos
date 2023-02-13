@@ -125,7 +125,6 @@
     flatpak-builder
     libsForQt5.ksystemlog
     virt-manager
-    corectrl
 
     # Terminal Emulators
     kitty
@@ -264,4 +263,7 @@
 
   # Need to figure out what has this dependency
   nixpkgs.config.permittedInsecurePackages = [ "electron-18.1.0" ];
+
+  # CoreCtrl
+  programs.corectrl.enable = true;
 }

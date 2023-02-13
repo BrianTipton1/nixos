@@ -9,6 +9,7 @@ let
     rm -f ~/.python_history
     rm -f ~/.bash_history
     rm -f ~/.viminfo
+    rm -f ~/.node_repl_history
     rm -rf ~/.npm
   '';
 in {

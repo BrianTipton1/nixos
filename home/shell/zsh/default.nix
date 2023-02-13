@@ -41,8 +41,8 @@
       trashMan = "sudo nix-collect-garbage -d; nix-collect-garbage -d;";
       dockerPurge =
         "docker rm -f $(docker ps -a -q);docker volume rm $(docker volume ls -q);docker system prune -a;";
-      fujiSync = ''
-        cd $HOME/Developer/WebServerDownload/ && nix-shell --command "python main.py"'';
+      fujiSync = "cd $HOME/Developer/WebServerDownload/ && python main.py";
+      open = "xdg-open";
     };
 
     oh-my-zsh = {

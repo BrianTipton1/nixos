@@ -8,5 +8,6 @@
     ./wezterm
     ./obsidian
     ./autostart
+    ./direnv
   ];
 }

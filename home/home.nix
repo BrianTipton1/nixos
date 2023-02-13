@@ -36,8 +36,10 @@
     libsForQt5.skanlite
     poppler_utils
     pdftk
+
     # Voice/Video Call
     zoom-us
+    nheko
 
     # IDE's / Development
     jetbrains.pycharm-professional
@@ -74,29 +76,16 @@
     # Interpreters
     lua5_4
 
-    # Utilities
-    direnv
-
     # Nix lsp/fmt
     nixfmt
     unstable.nil
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";
+  home.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
   home.sessionVariables.doom = "1";
 
   home.stateVersion = "22.11";
   programs.home-manager.enable = true;
 
-  # Tmp fix for webcord nonsense
-  home.file."/home/brian/.var/app/io.github.spacingbat3.webcord/config/WebCord/windowState.json".text =
-    ''
-      {
-          "mainWindow": {
-              "width": 952,
-              "height": 757.3333333333333,
-              "isMaximized": true
-          }
-      }
-    '';
 }
