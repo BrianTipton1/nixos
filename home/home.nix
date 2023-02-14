@@ -79,6 +79,8 @@
     # Nix lsp/fmt
     nixfmt
     unstable.nil
+
+    virt-manager
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";

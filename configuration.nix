@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   imports = [ ./hardware-configuration.nix ];
 
   # Bootloader.
@@ -25,19 +25,35 @@
   services.xserver.enable = true;
 
   ## AMD Setup 
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
   hardware.opengl.enable = true;
   hardware.opengl.driSupport = true;
   hardware.opengl.package = pkgs.unstable.mesa.drivers;
   # For 32 bit applications
   hardware.opengl.driSupport32Bit = true;
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.initrd.kernelModules = [
+    "amdgpu"
+
+    "vfio_pci"
+    "vfio"
+    "vfio_iommu_type1"
+    "vfio_virqfd"
+
+    "nvidia"
+    "nvidia_modeset"
+    "nvidia_uvm"
+    "nvidia_drm"
+  ];
+  boot.kernelParams =
+    [ "amd_iommu=on" "vfio-pci.ids=10de:1e84,10de:10f8,10de:1ad8,10de:1ad9" ];
+  # boot.kernelParams = [ "amd_iommu=on" "vfio-pci.ids=10de:1e84,10de:10f8" ];
 
   hardware.opengl.extraPackages = with pkgs; [ amdvlk ];
   # For 32 bit applications 
   # Only available on unstable
   hardware.opengl.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   ## End Amd
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.sessionVariables.KWIN_DRM_NO_AMS = "1";
@@ -91,8 +107,16 @@
     isNormalUser = true;
     description = "brian";
     shell = pkgs.zsh;
-    extraGroups =
-      [ "libvirtd" "networkmanager" "wheel" "docker" "scanner" "lp" ];
+    extraGroups = [
+      "input"
+      "libvirtd"
+      "networkmanager"
+      "wheel"
+      "docker"
+      "scanner"
+      "lp"
+      "kvm"
+    ];
   };
 
   # Allow unfree packages
@@ -124,7 +148,6 @@
     libsForQt5.ark
     flatpak-builder
     libsForQt5.ksystemlog
-    virt-manager
 
     # Terminal Emulators
     kitty
@@ -167,7 +190,42 @@
   system.stateVersion = "22.11"; # Did you read the comment?
 
   # Virt-Manager/libvirtd
-  virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu.ovmf.enable = true;
+    qemu.runAsRoot = true;
+    qemu.verbatimConfig = ''
+      nvram = ["/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd"]
+    '';
+  };
+  services.udev.extraRules = ''
+    SUBSYSTEM=="vfio", OWNER="brian", GROUP="kvm"
+
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", MODE="0666"
+    SUBSYSTEM=="usb_device", ATTRS{idVendor}=="046d", MODE="0666"
+
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="17ef", MODE="0666"
+    SUBSYSTEM=="usb_device", ATTRS{idVendor}=="17ef", MODE="0666"
+
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="0416", MODE="0666"
+    SUBSYSTEM=="usb_device", ATTRS{idVendor}=="0416", MODE="0666"
+  '';
+  security.pam.loginLimits = [
+    {
+      domain = "brian";
+      item = "memlock";
+      type = "hard";
+      value = "unlimited";
+    }
+    {
+
+      domain = "brian";
+      item = "memlock";
+      type = "soft";
+      value = "unlimited";
+    }
+  ];
+
   virtualisation.spiceUSBRedirection.enable = true;
   #
 
