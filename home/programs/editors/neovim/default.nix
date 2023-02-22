@@ -1,11 +1,11 @@
 { config, pkgs, lib, inputs, ... }: {
   programs.neovim = {
     enable = true;
-    extraLuaPackages = with pkgs.lua53Packages; [ fennel ];
+    extraLuaPackages = ps: [ ps.fennel ];
     extraPackages = with pkgs; [
       sumneko-lua-language-server
       nodePackages_latest.vscode-json-languageserver
-      unstable.nil
+      nil
       stylua
       jq
       nixfmt
@@ -21,7 +21,7 @@
       alpha-nvim
       nvim-web-devicons
       which-key-nvim
-      pkgs.unstable.vimPlugins.nvim-lspconfig
+      pkgs.vimPlugins.nvim-lspconfig
       vim-nix
       null-ls-nvim
       nvim-cmp

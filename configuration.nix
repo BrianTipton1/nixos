@@ -25,10 +25,10 @@
   services.xserver.enable = true;
 
   ## AMD Setup 
-  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
+  services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.opengl.enable = true;
   hardware.opengl.driSupport = true;
-  hardware.opengl.package = pkgs.unstable.mesa.drivers;
+  hardware.opengl.package = pkgs.mesa.drivers;
   # For 32 bit applications
   hardware.opengl.driSupport32Bit = true;
   boot.initrd.kernelModules = [
@@ -39,30 +39,41 @@
     "vfio_iommu_type1"
     "vfio_virqfd"
 
-    "nvidia"
-    "nvidia_modeset"
-    "nvidia_uvm"
-    "nvidia_drm"
+    # "nvidia"
+    # "nvidia_modeset"
+    # "nvidia_uvm"
+    # "nvidia_drm"
   ];
-  boot.kernelParams =
-    [ "amd_iommu=on" "vfio-pci.ids=10de:1e84,10de:10f8,10de:1ad8,10de:1ad9" ];
-  # boot.kernelParams = [ "amd_iommu=on" "vfio-pci.ids=10de:1e84,10de:10f8" ];
+  # boot.kernelParams = [
+  #   "amd_iommu=on"
+  #   "intel_iommu=on"
+  #   "vfio-pci.ids=10de:1e84,10de:10f8,10de:1ad8,10de:1ad9"
+  # ];
+  # This has the intel ssd
+  boot.kernelParams = [
+    "amd_iommu=on"
+    "intel_iommu=on"
+    "vfio-pci.ids=10de:1e84,10de:10f8,10de:1ad8,10de:1ad9,8086:f1a8"
+  ];
+  boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
 
   hardware.opengl.extraPackages = with pkgs; [ amdvlk ];
   # For 32 bit applications 
   # Only available on unstable
-  hardware.opengl.extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+  hardware.opengl.extraPackages32 = with pkgs;
+    [ stable.driversi686Linux.amdvlk ];
   ## End Amd
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.sessionVariables.KWIN_DRM_NO_AMS = "1";
+  environment.sessionVariables.KWIN_FORCE_SW_CURSOR = "1";
 
   # Gtk theming in wayland/ Virt-Manager
   programs.dconf.enable = true;
   #
 
-  boot.kernelPackages = pkgs.linuxPackages_6_1;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Obs-Studio Virtual Camera
   boot.extraModulePackages = with config.boot.kernelPackages;
@@ -80,6 +91,7 @@
   # KDE Plasma Setup
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+  programs.kdeconnect.enable = true;
   # End Kde
 
   # Configure keymap in X11
@@ -91,16 +103,19 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
+  # Enable sound with pulseaudio.
   sound.enable = true;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit =
+    true; # # If compatibility with 32-bit applications is desired.
+  programs.noisetorch.enable = true;
+  # security.rtkit.enable = true;
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true;
+  #   alsa.support32Bit = true;
+  #   pulse.enable = true;
+  # };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.brian = {
@@ -116,6 +131,7 @@
       "scanner"
       "lp"
       "kvm"
+      "audio"
     ];
   };
 
@@ -132,6 +148,7 @@
     wget
     util-linux
     pciutils
+    usbutils
     bat
     exa
     fzf
@@ -151,7 +168,6 @@
 
     # Terminal Emulators
     kitty
-    wezterm
   ];
 
   # List services that you want to enable:
@@ -193,7 +209,7 @@
   virtualisation.libvirtd = {
     enable = true;
     qemu.ovmf.enable = true;
-    qemu.runAsRoot = true;
+    qemu.runAsRoot = false;
     qemu.verbatimConfig = ''
       nvram = ["/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd"]
     '';
@@ -210,6 +226,10 @@
     SUBSYSTEM=="usb", ATTRS{idVendor}=="0416", MODE="0666"
     SUBSYSTEM=="usb_device", ATTRS{idVendor}=="0416", MODE="0666"
   '';
+
+  # Yeti Mic
+  # SUBSYSTEM=="usb", ATTRS{idVendor}=="b58e", MODE="0666"
+  # SUBSYSTEM=="usb_device", ATTRS{idVendor}=="b58e", MODE="0666"
   security.pam.loginLimits = [
     {
       domain = "brian";
@@ -319,9 +339,8 @@
     options = "--delete-older-than 7d";
   };
 
-  # Need to figure out what has this dependency
-  nixpkgs.config.permittedInsecurePackages = [ "electron-18.1.0" ];
-
   # CoreCtrl
   programs.corectrl.enable = true;
+
+  programs.nix-ld.enable = true;
 }

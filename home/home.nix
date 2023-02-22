@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, inputs, ... }: {
   imports = [ ./shell ./programs ./services ];
 
   home.username = "brian";
@@ -28,11 +28,11 @@
     xclip
     rofi
     keyutils
-    unstable.d2
+    d2
     jq
 
     # Office Tooling
-    unstable.libreoffice-qt
+    libreoffice-qt
     libsForQt5.skanlite
     poppler_utils
     pdftk
@@ -40,6 +40,7 @@
     # Voice/Video Call
     zoom-us
     nheko
+    signal-desktop
 
     # IDE's / Development
     jetbrains.pycharm-professional
@@ -71,16 +72,17 @@
 
     # Non-Steam Games
     xivlauncher
-    prismlauncher
 
     # Interpreters
     lua5_4
 
     # Nix lsp/fmt
     nixfmt
-    unstable.nil
+    nil
 
     virt-manager
+
+    inputs.nix-alien.packages.${system}.nix-alien
   ];
 
   home.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -90,4 +92,8 @@
   home.stateVersion = "22.11";
   programs.home-manager.enable = true;
 
+  # Need for UEFI - Currently broken
+  home.file."/home/brian/.config/libvirt/qemu.conf".text = ''
+    nvram = ["/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd"]
+  '';
 }

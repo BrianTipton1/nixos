@@ -2,9 +2,9 @@
   programs.vscode = {
     enable = true;
     enableUpdateCheck = false;
-    package = pkgs.unstable.vscode.fhsWithPackages (ps:
+    package = pkgs.vscode.fhsWithPackages (ps:
       with ps; [
-        pkgs.unstable.nil
+        pkgs.nil
         nixfmt
         sumneko-lua-language-server
         pkgs.angelscript

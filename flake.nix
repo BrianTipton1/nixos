@@ -1,35 +1,34 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-22.11";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    prismlauncher.url = "github:PrismLauncher/PrismLauncher";
+    nix-alien.url = "github:thiagokokada/nix-alien";
+    # prismlauncher.url = "github:PrismLauncher/PrismLauncher";
     fennel-ls.url = "github:BrianTipton1/fennel-ls-flake";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, home-manager
-    , prismlauncher, fennel-ls, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, fennel-ls, nixpkgs-stable
+    , nix-alien, ... }:
     let
       system = "x86_64-linux";
-      overlay-unstable = final: prev: {
-        unstable = import nixpkgs-unstable {
+      overlay-stable = final: prev: {
+        stable = import nixpkgs-stable {
           inherit system;
           config.allowUnfree = true;
         };
       };
+
     in {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ./configuration.nix
-
-          ({ config, pkgs, ... }: {
-            nixpkgs.overlays = [ overlay-unstable prismlauncher.overlay ];
-          })
-
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-stable ]; })
           home-manager.nixosModules.home-manager
           {
+
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.brian = import ./home/home.nix;

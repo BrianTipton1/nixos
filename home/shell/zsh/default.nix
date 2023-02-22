@@ -28,7 +28,7 @@
       sysboot =
         "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild boot --verbose";
       updatedb = "sudo updatedb";
-      copy = "xclip -selection c";
+      copy = "wl-copy";
       ipython =
         "nix-shell $HOME/Developer/NixShells/IPython/shell.nix --command ipython";
       mkJup = ''

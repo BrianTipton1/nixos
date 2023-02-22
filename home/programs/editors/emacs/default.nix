@@ -1,6 +1,5 @@
 { config, pkgs, ... }: {
   programs.emacs.enable = true;
-  home.sessionVariables.doom = "$HOME/.emacs.d/bin/doom";
   programs.emacs.extraPackages = (epkgs: [ epkgs.dap-mode epkgs.vterm ]);
   home.sessionVariables.EDITOR = "emacs";
   # Start Emacs fullscreen - Applied KDE setting to move to third monitor

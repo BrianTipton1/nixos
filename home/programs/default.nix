@@ -9,5 +9,6 @@
     ./obsidian
     ./autostart
     ./direnv
+    ./signal
   ];
 }

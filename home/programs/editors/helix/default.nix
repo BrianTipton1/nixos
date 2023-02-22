@@ -1,8 +1,7 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   programs.helix = {
     enable = true;
-    package = pkgs.unstable.helix;
+    package = pkgs.helix;
     languages = [ ];
     settings = {
       keys = builtins.fromJSON (builtins.readFile ./keybinds.json);
