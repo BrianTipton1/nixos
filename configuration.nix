@@ -37,7 +37,7 @@
     "vfio_pci"
     "vfio"
     "vfio_iommu_type1"
-    "vfio_virqfd"
+    # "vfio_virqfd"
 
     # "nvidia"
     # "nvidia_modeset"
@@ -145,6 +145,7 @@
     neovim
 
     # Utilities
+    zip
     wget
     util-linux
     pciutils
@@ -165,6 +166,10 @@
     libsForQt5.ark
     flatpak-builder
     libsForQt5.ksystemlog
+    glxinfo
+    vulkan-tools
+    wayland-utils
+    clinfo
 
     # Terminal Emulators
     kitty
@@ -296,9 +301,15 @@
   hardware.sane.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
+  services.printing.drivers = [ pkgs.hplip ];
 
   # Fonts
-  fonts.fonts = with pkgs; [ jetbrains-mono nerdfonts openmoji-color ];
+  fonts.fonts = with pkgs; [
+    jetbrains-mono
+    nerdfonts
+    pkgs.stable.openmoji-color
+    league-of-moveable-type
+  ];
 
   # Enable DRM Content with qutebrowser
   nixpkgs.overlays = [

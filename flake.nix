@@ -28,7 +28,6 @@
           ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-stable ]; })
           home-manager.nixosModules.home-manager
           {
-
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.brian = import ./home/home.nix;

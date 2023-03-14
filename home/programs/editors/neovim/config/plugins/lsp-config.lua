@@ -16,7 +16,7 @@ require("lspconfig.configs")["fennel-ls"] = {
 
 lspconfig["fennel-ls"].setup({ capabilities = capabilities })
 
-local servers = { "jsonnet_ls", "sumneko_lua", "nil_ls" }
+local servers = { "jsonnet_ls", "lua_ls", "nil_ls" }
 for _, lsp in ipairs(servers) do
 	lspconfig[lsp].setup({
 		capabilities = capabilities,

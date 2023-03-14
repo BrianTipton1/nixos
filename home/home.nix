@@ -7,7 +7,7 @@
   home.packages = with pkgs; [
     #Browsers
     firefox
-    qutebrowser
+    # qutebrowser
     ungoogled-chromium
 
     # School
@@ -41,6 +41,7 @@
     zoom-us
     nheko
     signal-desktop
+    webcord
 
     # IDE's / Development
     jetbrains.pycharm-professional
