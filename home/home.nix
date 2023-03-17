@@ -7,7 +7,6 @@
   home.packages = with pkgs; [
     #Browsers
     firefox
-    # qutebrowser
     ungoogled-chromium
 
     # School
@@ -86,11 +85,13 @@
     inputs.nix-alien.packages.${system}.nix-alien
   ];
 
+  # Session Vars
   home.sessionVariables.NIXOS_OZONE_WL = "1";
   home.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
   home.sessionVariables.doom = "1";
 
   home.stateVersion = "22.11";
+
   programs.home-manager.enable = true;
 
   # Need for UEFI - Currently broken

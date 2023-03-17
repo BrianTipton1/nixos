@@ -1,1 +1,1 @@
-{ config, pkgs, ... }: { imports = [ ./clean-home ]; }
+{ imports = [ ./clean-home ./noisetorch ]; }

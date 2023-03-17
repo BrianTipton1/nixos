@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, ... }: {
   imports = [ ./hardware-configuration.nix ];
 
   # Bootloader.
@@ -9,8 +9,7 @@
   # Allow for mounting NTFS drive
   boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "nixos"; # Define your hostname.
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "nixos";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -24,32 +23,35 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  ## AMD Setup 
+  ## Graphics Drivers Setup 
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.opengl.enable = true;
   hardware.opengl.driSupport = true;
   hardware.opengl.package = pkgs.mesa.drivers;
-  # For 32 bit applications
+  hardware.opengl.extraPackages = with pkgs; [ amdvlk ];
+
+  ## For 32 bit applications
   hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.extraPackages32 = with pkgs;
+    [ stable.driversi686Linux.amdvlk ];
+
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  # End Graphics Driver
+
+  # Kernel Config
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.initrd.kernelModules = [
     "amdgpu"
 
     "vfio_pci"
     "vfio"
     "vfio_iommu_type1"
+    ## This module I believe isn't needed in kernels >= 6.2.X
     # "vfio_virqfd"
-
-    # "nvidia"
-    # "nvidia_modeset"
-    # "nvidia_uvm"
-    # "nvidia_drm"
   ];
-  # boot.kernelParams = [
-  #   "amd_iommu=on"
-  #   "intel_iommu=on"
-  #   "vfio-pci.ids=10de:1e84,10de:10f8,10de:1ad8,10de:1ad9"
-  # ];
-  # This has the intel ssd
+
+  # Video and Sound PCIE ID's for 2070 Super. PCIE ID for Intel M.2
   boot.kernelParams = [
     "amd_iommu=on"
     "intel_iommu=on"
@@ -57,25 +59,7 @@
   ];
   boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
 
-  hardware.opengl.extraPackages = with pkgs; [ amdvlk ];
-  # For 32 bit applications 
-  # Only available on unstable
-  hardware.opengl.extraPackages32 = with pkgs;
-    [ stable.driversi686Linux.amdvlk ];
-  ## End Amd
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  environment.sessionVariables.KWIN_DRM_NO_AMS = "1";
-  environment.sessionVariables.KWIN_FORCE_SW_CURSOR = "1";
-
-  # Gtk theming in wayland/ Virt-Manager
-  programs.dconf.enable = true;
-  #
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # Obs-Studio Virtual Camera
+  ## Obs-Studio Virtual Camera
   boot.extraModulePackages = with config.boot.kernelPackages;
     [ v4l2loopback.out ];
 
@@ -87,6 +71,15 @@
     options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
   '';
   ## End Obs setup
+  # End Kernel Config
+
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.KWIN_DRM_NO_AMS = "1";
+  environment.sessionVariables.KWIN_FORCE_SW_CURSOR = "1";
+
+  # Gtk theming in wayland/ Virt-Manager
+  programs.dconf.enable = true;
+  #
 
   # KDE Plasma Setup
   services.xserver.displayManager.sddm.enable = true;
@@ -100,22 +93,12 @@
     xkbVariant = "";
   };
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pulseaudio.
+  # Sound Config
   sound.enable = true;
   hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit =
-    true; # # If compatibility with 32-bit applications is desired.
+  hardware.pulseaudio.support32Bit = true;
   programs.noisetorch.enable = true;
-  # security.rtkit.enable = true;
-  # services.pipewire = {
-  #   enable = true;
-  #   alsa.enable = true;
-  #   alsa.support32Bit = true;
-  #   pulse.enable = true;
-  # };
+  # End Sound Config
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.brian = {
@@ -175,22 +158,16 @@
     kitty
   ];
 
-  # List services that you want to enable:
-
-  # Remote Desktop for lan
-  #services.xrdp.enable = true;
-  #services.xrdp.defaultWindowManager = "startplasma-x11";
-  #networking.firewall.allowedTCPPorts = [ 3389 ];
-
-  # Flatpak
+  # System services
+  ## Flatpak
   services.flatpak.enable = true;
   xdg.portal.extraPortals =
     [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-kde ];
 
-  # Mullvad
+  ## Mullvad
   services.mullvad-vpn.enable = true;
 
-  # mlocate
+  ## mlocate
   services.locate = {
     enable = true;
     localuser = null;
@@ -198,27 +175,15 @@
     interval = "hourly";
   };
 
-  # Clamav/Freshclam Service
+  ## Clamav/Freshclam Service
   services.clamav.daemon.enable = true;
   services.clamav.updater.enable = true;
+  # End System Services
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  system.stateVersion = "22.11";
 
-  # Virt-Manager/libvirtd
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu.ovmf.enable = true;
-    qemu.runAsRoot = false;
-    qemu.verbatimConfig = ''
-      nvram = ["/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd"]
-    '';
-  };
+  # Vfio Related Rules/Settings
+  ## Needed for permission to hotplug mouse and keyboard
   services.udev.extraRules = ''
     SUBSYSTEM=="vfio", OWNER="brian", GROUP="kvm"
 
@@ -232,9 +197,7 @@
     SUBSYSTEM=="usb_device", ATTRS{idVendor}=="0416", MODE="0666"
   '';
 
-  # Yeti Mic
-  # SUBSYSTEM=="usb", ATTRS{idVendor}=="b58e", MODE="0666"
-  # SUBSYSTEM=="usb_device", ATTRS{idVendor}=="b58e", MODE="0666"
+  ## Needed because memory page limit errors when using vfio
   security.pam.loginLimits = [
     {
       domain = "brian";
@@ -250,12 +213,26 @@
       value = "unlimited";
     }
   ];
+  # End Vfio rules
 
-  virtualisation.spiceUSBRedirection.enable = true;
-  #
-
+  # Virtulization
   ## Docker Setup
   virtualisation.docker.enable = true;
+
+  ## Virt-Manager/libvirtd
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu.ovmf.enable = true;
+    qemu.runAsRoot = false;
+
+    ### Needed for UEFI booting systems currently. Tmp fix 
+    qemu.verbatimConfig = ''
+      nvram = ["/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd"]
+    '';
+  };
+  ## Simple spice hotplug of usb devices
+  virtualisation.spiceUSBRedirection.enable = true;
+  # End Virtualization
 
   # Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -263,10 +240,7 @@
   # Trust Users for cachix use
   nix.settings.trusted-users = [ "root" "brian" ];
 
-  # Compression
-  nix.settings.auto-optimise-store = true;
-
-  # Steam/Game Related Settings.. Bluetooth
+  # Steam/Game Related Settings.. Better Bluetooth drivers for Gamepad
   programs.steam = {
     enable = true;
     remotePlay.openFirewall =
@@ -281,7 +255,7 @@
       pkgs.steam.override { extraPkgs = pkgs: with pkgs; [ libgdiplus ]; };
   };
   hardware.xpadneo.enable = true;
-  # Glorious Egg Roll Setup
+  ## Glorious Egg Roll Setup
   environment.sessionVariables = rec {
     XDG_CACHE_HOME = "\${HOME}/.cache";
     XDG_CONFIG_HOME = "\${HOME}/.config";
@@ -294,14 +268,16 @@
     PATH = [ "\${XDG_BIN_HOME}" ];
   };
   programs.gamemode.enable = true;
-  ## End Steam
+  # End Steam
 
-  # Scanning
+  # Printing/Scanning Options
   hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ];
   hardware.sane.enable = true;
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
   services.printing.drivers = [ pkgs.hplip ];
+  services.printing.enable = true;
+  # End Print/Scan
 
   # Fonts
   fonts.fonts = with pkgs; [
@@ -310,23 +286,18 @@
     pkgs.stable.openmoji-color
     league-of-moveable-type
   ];
+  # End Fonts
 
-  # Enable DRM Content with qutebrowser
-  nixpkgs.overlays = [
-    (final: prev: {
-      qutebrowser = prev.qutebrowser.override { enableWideVine = true; };
-    })
-  ];
   # File Systems
   system.fsPackages = [ pkgs.bindfs ];
   fileSystems = let # = let
-    # Internal 2TB SSD
+    ## Internal 2TB SSD
     "/home/brian/drive_two" = {
       device = "/dev/disk/by-uuid/98f3c60b-2788-4116-9cca-bed48c2bc0bd";
       fsType = "ext4";
       options = [ "nofail" ];
     };
-    # Setup for fonts, icons for flatpak to find
+    ## Setup for fonts, icons for flatpak to find
     mkRoSymBind = path: {
       device = path;
       fsType = "fuse.bindfs";
@@ -338,20 +309,28 @@
       pathsToLink = [ "/share/fonts" ];
     };
   in {
-    # Create an FHS mount to support flatpak host icons/fonts
+    ## Create an FHS mount to support flatpak host icons/fonts
     "/usr/share/icons" = mkRoSymBind (config.system.path + "/share/icons");
     "/usr/share/fonts" = mkRoSymBind (aggregatedFonts + "/share/fonts");
   };
+  # End File Systems
 
-  # Auto garbage collection
+  # Nix Store
+  ## Auto Garbage Collection
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 7d";
   };
 
+  ## Compression
+  nix.settings.auto-optimise-store = true;
+  # End Nix Store
+
   # CoreCtrl
   programs.corectrl.enable = true;
+  # End CoreCtrl
 
+  # Nix ld, for use with nix-alien-ld
   programs.nix-ld.enable = true;
 }

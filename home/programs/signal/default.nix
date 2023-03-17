@@ -1,7 +1,4 @@
-{ config, lib, pkgs, ... }:
-
 {
-
   xdg.configFile = {
     "autostart/Signal.desktop".text = ''
       Name=Signal

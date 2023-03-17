@@ -4,7 +4,6 @@
     ./git
     ./interpreters
     ./mullvad
-    ./pipewire
     ./wezterm
     ./obsidian
     ./autostart

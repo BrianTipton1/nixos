@@ -1,5 +1,3 @@
-{ config, pkgs, ... }:
-
 {
   # Use lorri and direnv
   services.lorri.enable = true;

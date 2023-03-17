@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-
+{ pkgs, ... }:
 let
   mkCleanScript = pkgs.writeShellScript "clean.sh" ''
     find ~ -maxdepth 1 -name '*.log*' -delete
