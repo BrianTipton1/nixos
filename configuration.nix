@@ -216,8 +216,10 @@
   # End Vfio rules
 
   # Virtulization
-  ## Docker Setup
+  ## Docker/Podman Setup
   virtualisation.docker.enable = true;
+  virtualisation.podman.enable = true;
+  virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
 
   ## Virt-Manager/libvirtd
   virtualisation.libvirtd = {

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ pkgs, ... }: {
   programs.vscode = {
     enable = true;
     enableUpdateCheck = false;
@@ -43,8 +43,6 @@
           sha256 = "sha256-8HY46AKbAU5W01BN4iwCUSFqTXfRbC937Gy0kvPTmn4=";
         }
       ];
-    keybindings = import ./config/keybindings.nix;
-    userSettings = import ./config/usersettings.nix;
   };
   home.file.".vsvimrc".text = ''
     imap jj <Esc>

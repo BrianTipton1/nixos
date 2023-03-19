@@ -5,11 +5,9 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-alien.url = "github:thiagokokada/nix-alien";
-    # prismlauncher.url = "github:PrismLauncher/PrismLauncher";
-    fennel-ls.url = "github:BrianTipton1/fennel-ls-flake";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, fennel-ls, nixpkgs-stable
+  outputs = inputs@{ self, nixpkgs, home-manager, nixpkgs-stable
     , nix-alien, ... }:
     let
       system = "x86_64-linux";

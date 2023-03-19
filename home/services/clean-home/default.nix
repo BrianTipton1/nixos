@@ -9,7 +9,10 @@ let
     rm -f ~/.bash_history
     rm -f ~/.viminfo
     rm -f ~/.node_repl_history
+    rm -f ~/.lesshst
+    rm -f ~/.sudo_as_admin_successful
     rm -rf ~/.npm
+    rm -rf ~/.quake2rtx
   '';
 in {
   systemd.user.services.clean-home = {

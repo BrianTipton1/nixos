@@ -80,9 +80,13 @@
     nixfmt
     nil
 
-    virt-manager
-
     inputs.nix-alien.packages.${system}.nix-alien
+
+    # Container/Virt tools
+    distrobox
+    pods
+    podman-compose
+    virt-manager
   ];
 
   # Session Vars

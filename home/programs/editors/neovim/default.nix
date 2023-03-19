@@ -1,7 +1,6 @@
-{ config, pkgs, lib, inputs, ... }: {
+{ pkgs, lib, ... }: {
   programs.neovim = {
     enable = true;
-    extraLuaPackages = ps: [ ps.fennel ];
     extraPackages = with pkgs; [
       sumneko-lua-language-server
       nodePackages_latest.vscode-json-languageserver
@@ -10,8 +9,6 @@
       jq
       nixfmt
       lazygit
-      fnlfmt
-      inputs.fennel-ls.packages.${pkgs.system}.default
     ];
     plugins = with pkgs.vimPlugins; [
       telescope-nvim
@@ -36,14 +33,7 @@
       vim-tmux-navigator
       mini-nvim
       fennel-vim
-      # {
-      #   plugin = builtins.fetchGit {
-      #     url = "https://github.com/terrastruct/d2-vim";
-      #     rev = "ac58c07ba192d215cbbd2b2207f9def808a9283d";
-      #   };
-      #   # config = "let g:startify_change_to_vcs_root = 0";
-      # }
-      hotpot-nvim
+      orgmode
     ];
     extraConfig = let
       files = lib.filesystem.listFilesRecursive ./config;

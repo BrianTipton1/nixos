@@ -1,0 +1,8 @@
+* Personal NixOS Configurations
+* TODO
+  * Refactor Autostart into programs with a module
+  * Per host config
+  * Openbox container dev configurations baked into (user files/systemlevel?)
+  * Orgify and document
+  * Vfio module to cleanup configuration.nix
+  * Glorious eggroll 
