@@ -87,6 +87,8 @@
     pods
     podman-compose
     virt-manager
+
+    vkBasalt
   ];
 
   # Session Vars
