@@ -39,17 +39,33 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1678904532,
-        "narHash": "sha256-ziszYqNQtYxS1iPAPy6K8G94P/LghqM3niXrnKbp8pI=",
+        "lastModified": 1679265143,
+        "narHash": "sha256-5RDMW+O4owjdPz7t4K4YxH2fOHCNOcyVmSiKRUikiv0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "95201931f2e733705296d1d779e70793deaeb909",
+        "rev": "1b8bf5c3270386a1b6850bd77d79dbdbaf0d7a7c",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
         "type": "github"
+      }
+    },
+    "mesa-git": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1677119809,
+        "narHash": "sha256-5fnz2fznXuLL1PUo5O6/PKx1v8ZFkYIa4gxI6A/8B9U=",
+        "rev": "bbf142b8de7454a80729b2949249203c7bee7230",
+        "revCount": 165449,
+        "type": "git",
+        "url": "https://gitlab.freedesktop.org/mesa/mesa"
+      },
+      "original": {
+        "rev": "bbf142b8de7454a80729b2949249203c7bee7230",
+        "type": "git",
+        "url": "https://gitlab.freedesktop.org/mesa/mesa"
       }
     },
     "nix-alien": {
@@ -112,11 +128,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1678761643,
-        "narHash": "sha256-tapXZvg6Kg5Fm7Fm6i+7cRC5Exp2lX7cgMrqsfrGhuc=",
+        "lastModified": 1679139072,
+        "narHash": "sha256-Gtw2Yj8DfETie3u7iHv1y5Wt+plGRmp6nTQ0EEfaPho=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c4aec3c021620d98861639946123214207e98344",
+        "rev": "08ef7dc8334521605a5c8b7086cc248e74ee338b",
         "type": "github"
       },
       "original": {
@@ -128,11 +144,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1678819893,
-        "narHash": "sha256-lfA6WGdxPsPkBK5Y19ltr5Sn7v7MlT+jpZ4nUgco0Xs=",
+        "lastModified": 1679172431,
+        "narHash": "sha256-XEh5gIt5otaUbEAPUY5DILUTyWe1goAyeqQtmwaFPyI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "7067edc68c035e21780259ed2d26e1f164addaa2",
+        "rev": "1603d11595a232205f03d46e635d919d1e1ec5b9",
         "type": "github"
       },
       "original": {
@@ -145,6 +161,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "mesa-git": "mesa-git",
         "nix-alien": "nix-alien",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable"

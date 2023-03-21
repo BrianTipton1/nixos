@@ -1,6 +1,7 @@
-{ config, pkgs, inputs, ... }: {
-  imports = [ ./shell ./programs ./services ];
-
+_:
+{ pkgs, inputs, ... }: {
+  imports = [ ../shell ../programs ../services ];
+  
   home.username = "brian";
   home.homeDirectory = "/home/brian";
 
@@ -89,6 +90,7 @@
     virt-manager
 
     vkBasalt
+    cowsay
   ];
 
   # Session Vars

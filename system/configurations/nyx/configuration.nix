@@ -1,3 +1,4 @@
+_:
 { config, pkgs, ... }: {
   imports = [ ./hardware-configuration.nix ];
 
@@ -9,7 +10,7 @@
   # Allow for mounting NTFS drive
   boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "nixos";
+  networking.hostName = "nyx";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -25,15 +26,7 @@
 
   ## Graphics Drivers Setup 
   services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
-  hardware.opengl.package = pkgs.mesa.drivers;
-  hardware.opengl.extraPackages = with pkgs; [ amdvlk ];
-
-  ## For 32 bit applications
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs;
-    [ stable.driversi686Linux.amdvlk ];
+  mesa-git.enable = false;
 
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   # End Graphics Driver
