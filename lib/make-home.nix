@@ -15,7 +15,6 @@ in inputs.home-manager.lib.homeManagerConfiguration {
       home = {
         username = user;
         homeDirectory = home-directory;
-        packages = [ inputs.home-manager.packages.${system}.home-manager ];
       };
     }
   ];

@@ -1,5 +1,5 @@
 _:
-{ pkgs, inputs,... }: {
+{ pkgs, inputs, ... }: {
   imports = [ ../shell ../programs ../services ];
   
   # home.username = "brian";
