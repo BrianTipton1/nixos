@@ -10,7 +10,6 @@ in inputs.home-manager.lib.homeManagerConfiguration {
   extraSpecialArgs = { inherit inputs; };
   inherit pkgs;
   modules = builtins.attrValues self.homeModules ++ [
-
     config-file
     {
       home = {
