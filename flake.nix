@@ -17,7 +17,7 @@
     nixosModules = import ./system/modules inputs;
 
     homeConfigurations = import ./home/configurations inputs;
-    homeModules = import ./home/modules inputs;
+    homeModules = import ./home/modules ;
 
     lib = import ./lib inputs;
     packages = import ./packages inputs;

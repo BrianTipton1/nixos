@@ -1,7 +1,7 @@
 { config, pkgs, ... }: {
   programs.wezterm = {
     enable = true;
-    package = pkgs.stable.wezterm;
+    package = pkgs.wezterm;
     extraConfig = let
       wezRequire = module:
         builtins.readFile (builtins.toString ./config + "/${module}.lua");

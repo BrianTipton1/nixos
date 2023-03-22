@@ -1,4 +1,5 @@
-{ self, ... } @ inputs: name:
+{ self,... }@inputs:
+name:
 
 let
   config-folder = "${self}/system/configurations/${name}";
@@ -7,6 +8,7 @@ let
 
 in inputs.nixpkgs.lib.nixosSystem {
   system = "x86_64-linux";
+  # specialArgs = { inherit inputs; };
   modules = builtins.attrValues self.nixosModules ++ [
     config-file
     hardware
