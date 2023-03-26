@@ -32,7 +32,7 @@ _:
   # End Graphics Driver
 
   # Kernel Config
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   boot.initrd.kernelModules = [
     "amdgpu"
