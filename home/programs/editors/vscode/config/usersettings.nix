@@ -1,4 +1,4 @@
-{
+pkgs: {
   window.zoomLevel = 3;
   files.autoSave = "afterDelay";
   vim.vimrc.enable = true;
@@ -24,4 +24,16 @@
   code-eol.highlightNonDefault = true;
   code-eol.highlightExtraWhitespace = true;
   redhat.telemetry.enabled = false;
+  "docker.dockerPath" = "${pkgs.podman}/bin/podman";
+  "dev.containers.dockerPath" = "${pkgs.podman}/bin/podman";
+  "dev.containers.dockerComposePath" =
+    "${pkgs.podman-compose}/bin/podman-compose";
+  "docker.composeCommand" = "podman-compose";
+  "docker.environment" = {
+    "DOCKER_HOST" = "unix:///run/user/1000/podman/podman.sock";
+  };
+  "vim.enableNeovim" = true;
+  "vim.neovimConfigPath" = "~/.config/nvim/init.lua";
+  "vim.neovimPath" = "${pkgs.neovim}/bin/nvim";
+  "vim.useSystemClipboard" = true;
 }

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, ... }: {
   programs.zsh = {
 
     enable = true;
@@ -11,24 +11,25 @@
     shellAliases = {
       vim = "nvim";
       vi = "nvim";
-      ll = "exa --long --git --icons --no-filesize";
-      ls = "exa --long --git --icons --no-filesize";
-      l = "exa --long --all --git --icons --no-filesize";
-      lr = "exa --long --all --git --tree --icons --no-filesize";
-      ld = "exa --long --all --git --tree --icons --no-filesize --git-ignore";
+      ll = "exa --long --git --icons";
+      ls = "exa --long --git --icons";
+      l = "exa --long --all --git --icons";
+      lt = "exa --long --all --git --tree --icons --no-filesize --git-ignore";
       rg = "rg -i";
       cat = "bat";
       nuke = "rm -rf";
       update =
-        "update_nix_input nixpkgs && update_nix_input home-manager && update_nix_input nixpkgs-stable && sudo nixos-rebuild switch --verbose && cp /etc/nixos/flake.lock $HOME/Developer/nixos/";
+        "cd $HOME/Developer/nixos && sudo nixos-rebuild switch --flake .#nyx --verbose";
+      update_home =
+        "cd $HOME/Developer/nixos && home-manager switch --flake .#brian@nyx --verbose";
       update_boot =
-        "update_nix_input nixpkgs && update_nix_input home-manager && update_nix_input nixpkgs-stable && sudo nixos-rebuild boot --verbose && cp /etc/nixos/flake.lock $HOME/Developer/nixos/";
-      nuclear_update =
-        "sudo rm /etc/nixos/flake.lock && sudo nixos-rebuild switch --verbose && cp /etc/nixos/flake.lock $HOME/Developer/nixos/";
-      sysadmin =
-        "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild switch --verbose && cp /etc/nixos/hardware-configuration.nix $HOME/Developer/nixos/ && cp /etc/nixos/flake.lock $HOME/Developer/nixos/";
-      sysadmin_boot =
-        "cd /etc/nixos/ && sudo rm -rf configuration.nix home/ flake.nix && cd $HOME/Developer/nixos/ && sudo cp -r * /etc/nixos/ && sudo nixos-rebuild boot --verbose";
+        "cd $HOME/Developer/nixos && sudo nixos-rebuild boot --flake .#nyx --verbose";
+      upgrade_home =
+        "cd $HOME/Developer/nixos && nix flake lock --update-input home-manager && home-manager switch --flake .#brian@nyx --verbose";
+      upgrade =
+        "cd $HOME/Developer/nixos && nix flake update && sudo nixos-rebuild switch --flake .#nyx --verbose";
+      upgrade_boot =
+        "cd $HOME/Developer/nixos && nix flake update && sudo nixos-rebuild boot --flake .#nyx --verbose";
       sysedit = "cd $HOME/Developer/nixos/ && nvim .";
       updatedb = "sudo updatedb";
       copy = "wl-copy";
@@ -44,13 +45,25 @@
       dockerPurge =
         "docker rm -f $(docker ps -a -q);docker volume rm $(docker volume ls -q);docker system prune -a;";
       fujiSync = "cd $HOME/Developer/WebServerDownload/ && python main.py";
+      fujiHome =
+        "xdg-open $HOME/Documents/School/CS314/BulkDownload/html/CS314_SEC1.html";
+      fujiPdf = "xdg-open $HOME/Documents/School/CS314/BulkDownload/pdf/";
+      fujiPpt = "xdg-open $HOME/Documents/School/CS314/BulkDownload/ppt/";
+      fujiWord = "xdg-open $HOME/Documents/School/CS314/BulkDownload/doc/";
+      fujiTxt = "xdg-open $HOME/Documents/School/CS314/BulkDownload/txt/";
+      fujiCpp = "xdg-open $HOME/Documents/School/CS314/BulkDownload/cpp/";
+      fujiHtm = "xdg-open $HOME/Documents/School/CS314/BulkDownload/htm/";
+      fujiSelect =
+        "find $HOME/Documents/School/CS314/BulkDownload/ -print | fzf | xargs xdg-open &>/dev/null";
+      fujiClean = "pkill -9 -f p2_941; ipcrm --all=shm; ipcrm --all=sem";
+      fujiRun = "nix run; fujiClean";
       open = "xdg-open";
     };
 
     oh-my-zsh = {
       enable = true;
       plugins = [ "git" "sudo" "fzf" "z" ];
-      theme = "af-magic";
+      theme = "gianu";
     };
 
     initExtra = builtins.readFile ./init.sh;

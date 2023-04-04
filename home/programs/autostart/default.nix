@@ -1,1 +1,1 @@
-{ imports = [ ./birdtray.nix ./webcord.nix ./signal.nix ]; }
+{ imports = [ ./birdtray.nix ./signal.nix ]; }

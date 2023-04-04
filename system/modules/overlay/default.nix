@@ -7,4 +7,5 @@
         config.allowUnfree = true;
       };
     };
+
   in { nixpkgs.overlays = [ overlay-stable ]; })

@@ -9,6 +9,7 @@
       jq
       nixfmt
       lazygit
+      shfmt
     ];
     plugins = with pkgs.vimPlugins; [
       telescope-nvim
@@ -33,7 +34,14 @@
       vim-tmux-navigator
       mini-nvim
       fennel-vim
-      orgmode
+      neorg
+      neorg-telescope
+      (nvim-treesitter.withPlugins (p:
+        with p;
+        [
+          # Keep calm and don't :TSInstall
+          tree-sitter-lua
+        ]))
     ];
     extraConfig = let
       files = lib.filesystem.listFilesRecursive ./config;

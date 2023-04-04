@@ -1,7 +1,7 @@
 _:
 { pkgs, inputs, ... }: {
   imports = [ ../shell ../programs ../services ];
-  
+
   # home.username = "brian";
   # home.homeDirectory = "/home/brian";
 
@@ -47,8 +47,9 @@ _:
     jetbrains.pycharm-professional
     jetbrains.idea-ultimate
     jetbrains.rider
-    jetbrains.clion
+    # jetbrains.clion
     lazygit
+    gh
 
     # Latex
     kile
@@ -89,8 +90,9 @@ _:
     podman-compose
     virt-manager
 
-    vkBasalt
     cowsay
+    neofetch
+    elvish
   ];
 
   # Session Vars
@@ -107,8 +109,8 @@ _:
     nvram = ["/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd"]
   '';
 
-        nixpkgs.config.allowUnfreePredicate = (pkg: true);
-      nixpkgs.config.allowUnfree = true;
-      nixpkgs.config.useGlobalPkgs = true;
-      nixpkgs.config.useUserPackages = true;
+  nixpkgs.config.allowUnfreePredicate = (pkg: true);
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.useGlobalPkgs = true;
+  nixpkgs.config.useUserPackages = true;
 }
