@@ -11,9 +11,12 @@ with lib; {
     environment.systemPackages = with pkgs; [
       libsForQt5.ark
       libsForQt5.ksystemlog
+      libsForQt5.skanlite
+      libsForQt5.kalendar
+      libsForQt5.filelight
     ];
 
-  environment.sessionVariables.KWIN_DRM_NO_AMS = "1";
-  environment.sessionVariables.KWIN_FORCE_SW_CURSOR = "1";
+    environment.sessionVariables.KWIN_DRM_NO_AMS = "1";
+    environment.sessionVariables.KWIN_FORCE_SW_CURSOR = "1";
   };
 }

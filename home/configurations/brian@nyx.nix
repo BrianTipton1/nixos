@@ -21,6 +21,8 @@ _:
     birdtray
 
     # Assorted
+    neofetch
+    soundux
     bitwarden
     bitwarden-cli
     qbittorrent
@@ -30,15 +32,11 @@ _:
     keyutils
     d2
     jq
+    inputs.cssxpd.packages.${pkgs.system}.default
+    inputs.hm_purge.packages.${pkgs.system}.default
 
     # Office Tooling
     libreoffice-qt
-    libsForQt5.skanlite
-    libsForQt5.discover
-    libsForQt5.kalendar
-    libsForQt5.filelight
-    libsForQt5.index
-    libsForQt5.ktorrent
     poppler_utils
     pdftk
 
@@ -82,22 +80,18 @@ _:
     # Interpreters
     lua5_4
 
-    # Nix lsp/fmt
+    #Nix Specific
     nixfmt
     nil
-
     inputs.nix-alien.packages.${system}.nix-alien
+    comma
 
     # Container/Virt tools
     distrobox
     pods
     inputs.podman-compose-devel.packages.${pkgs.system}.default
-    inputs.cssxpd.packages.${pkgs.system}.default
     virt-manager
 
-    soundux
-    neofetch
-    comma
   ];
 
   # Session Vars

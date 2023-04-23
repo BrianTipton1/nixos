@@ -12,6 +12,7 @@
     };
     podman-compose-devel.url = "github:BrianTipton1/podman-compose-flake";
     cssxpd.url = "github:BrianTipton1/cssxpd";
+    hm_purge.url = "github:BrianTipton1/hm_purge";
   };
 
   outputs = inputs: {

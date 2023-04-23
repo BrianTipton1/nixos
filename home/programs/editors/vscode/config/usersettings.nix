@@ -38,4 +38,5 @@ pkgs: {
   "vim.useSystemClipboard" = true;
   "[c]"."editor.defaultFormatter" = "ccls-project.ccls";
   "rust-analyzer.server.path" = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+  "extensions.ignoreRecommendations" = true;
 }
