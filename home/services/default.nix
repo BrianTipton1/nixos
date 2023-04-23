@@ -1,1 +1,1 @@
-{ imports = [ ./clean-home ./noisetorch ]; }
+{ imports = [ ./clean-home ]; }

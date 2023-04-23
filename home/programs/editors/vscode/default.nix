@@ -1,14 +1,9 @@
 { pkgs, ... }: {
   programs.vscode = {
     enable = true;
-    enableUpdateCheck = false;
-    package = pkgs.vscode.fhsWithPackages (ps:
-      with ps; [
-        pkgs.nil
-        nixfmt
-        sumneko-lua-language-server
-        pkgs.angelscript
-      ]);
+    # enableUpdateCheck = false;
+    package = pkgs.vscode.fhsWithPackages
+      (ps: with ps; [ pkgs.nil nixfmt sumneko-lua-language-server ]);
     extensions = with pkgs.vscode-extensions;
       [
         ms-azuretools.vscode-docker
@@ -44,7 +39,7 @@
         }
       ];
     keybindings = import ./config/keybindings.nix;
-    userSettings = import ./config/usersettings.nix;
+    userSettings = import ./config/usersettings.nix pkgs;
   };
   home.file.".vsvimrc".text = ''
     imap jj <Esc>

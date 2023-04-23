@@ -9,5 +9,6 @@
     ./autostart
     ./direnv
     ./signal
+    ./kitty
   ];
 }

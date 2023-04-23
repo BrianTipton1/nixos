@@ -1,8 +1,9 @@
-{ config, pkgs, inputs, ... }: {
-  imports = [ ./shell ./programs ./services ];
+_:
+{ pkgs, inputs, ... }: {
+  imports = [ ../shell ../programs ../services ];
 
-  home.username = "brian";
-  home.homeDirectory = "/home/brian";
+  # home.username = "brian";
+  # home.homeDirectory = "/home/brian";
 
   home.packages = with pkgs; [
     #Browsers
@@ -24,7 +25,7 @@
     bitwarden-cli
     qbittorrent
     mullvad-vpn
-    xclip
+    clipboard-jh
     rofi
     keyutils
     d2
@@ -33,6 +34,11 @@
     # Office Tooling
     libreoffice-qt
     libsForQt5.skanlite
+    libsForQt5.discover
+    libsForQt5.kalendar
+    libsForQt5.filelight
+    libsForQt5.index
+    libsForQt5.ktorrent
     poppler_utils
     pdftk
 
@@ -44,10 +50,10 @@
 
     # IDE's / Development
     jetbrains.pycharm-professional
-    jetbrains.idea-ultimate
-    jetbrains.rider
     jetbrains.clion
+    # jetbrains.clion
     lazygit
+    gh
 
     # Latex
     kile
@@ -85,10 +91,13 @@
     # Container/Virt tools
     distrobox
     pods
-    podman-compose
+    inputs.podman-compose-devel.packages.${pkgs.system}.default
+    inputs.cssxpd.packages.${pkgs.system}.default
     virt-manager
 
-    vkBasalt
+    soundux
+    neofetch
+    comma
   ];
 
   # Session Vars
@@ -104,4 +113,10 @@
   home.file."/home/brian/.config/libvirt/qemu.conf".text = ''
     nvram = ["/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd"]
   '';
+
+  nixpkgs.config.allowUnfreePredicate = (pkg: true);
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.useGlobalPkgs = true;
+  nixpkgs.config.useUserPackages = true;
+  nixpkgs.config.permittedInsecurePackages = [ "electron-21.4.0" ];
 }

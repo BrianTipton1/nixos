@@ -5,33 +5,23 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nix-alien.url = "github:thiagokokada/nix-alien";
+    mesa-git = {
+      # url = "https://gitlab.freedesktop.org/mesa/mesa";
+      url = "https://archive.mesa3d.org/mesa-23.0.1.tar.xz";
+      flake = false;
+    };
+    podman-compose-devel.url = "github:BrianTipton1/podman-compose-flake";
+    cssxpd.url = "github:BrianTipton1/cssxpd";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nixpkgs-stable
-    , nix-alien, ... }:
-    let
-      system = "x86_64-linux";
-      overlay-stable = final: prev: {
-        stable = import nixpkgs-stable {
-          inherit system;
-          config.allowUnfree = true;
-        };
-      };
+  outputs = inputs: {
+    nixosConfigurations = import ./system/configurations inputs;
+    nixosModules = import ./system/modules inputs;
 
-    in {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [
-          ./configuration.nix
-          ({ config, pkgs, ... }: { nixpkgs.overlays = [ overlay-stable ]; })
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.brian = import ./home/home.nix;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-          }
-        ];
-      };
-    };
+    homeConfigurations = import ./home/configurations inputs;
+    homeModules = import ./home/modules inputs;
+
+    lib = import ./lib inputs;
+    packages = import ./packages inputs;
+  };
 }

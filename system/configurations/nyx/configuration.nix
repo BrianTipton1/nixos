@@ -1,3 +1,4 @@
+_:
 { config, pkgs, ... }: {
   imports = [ ./hardware-configuration.nix ];
 
@@ -9,7 +10,7 @@
   # Allow for mounting NTFS drive
   boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "nixos";
+  networking.hostName = "nyx";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -25,21 +26,15 @@
 
   ## Graphics Drivers Setup 
   services.xserver.videoDrivers = [ "amdgpu" ];
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
-  hardware.opengl.package = pkgs.mesa.drivers;
-  hardware.opengl.extraPackages = with pkgs; [ amdvlk ];
 
-  ## For 32 bit applications
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs;
-    [ stable.driversi686Linux.amdvlk ];
+  mesa.enable = true;
+  mesa.git.enable = true;
 
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   # End Graphics Driver
 
   # Kernel Config
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   boot.initrd.kernelModules = [
     "amdgpu"
@@ -54,8 +49,9 @@
   # Video and Sound PCIE ID's for 2070 Super. PCIE ID for Intel M.2
   boot.kernelParams = [
     "amd_iommu=on"
-    "intel_iommu=on"
+    # "intel_iommu=on"
     "vfio-pci.ids=10de:1e84,10de:10f8,10de:1ad8,10de:1ad9,8086:f1a8"
+    "amdgpu.sg_display=0"
   ];
   boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
 
@@ -74,18 +70,10 @@
   # End Kernel Config
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  environment.sessionVariables.KWIN_DRM_NO_AMS = "1";
-  environment.sessionVariables.KWIN_FORCE_SW_CURSOR = "1";
 
   # Gtk theming in wayland/ Virt-Manager
   programs.dconf.enable = true;
   #
-
-  # KDE Plasma Setup
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  programs.kdeconnect.enable = true;
-  # End Kde
 
   # Configure keymap in X11
   services.xserver = {
@@ -93,14 +81,12 @@
     xkbVariant = "";
   };
 
-  # Sound Config
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
-  programs.noisetorch.enable = true;
-  # End Sound Config
+  audio.enable = true;
+  audio.noise-torch-input =
+    "alsa_input.usb-Blue_Microphones_Yeti_Nano_8838B13699040506-00.analog-stereo";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  programs.zsh.enable = true;
   users.users.brian = {
     isNormalUser = true;
     description = "brian";
@@ -115,6 +101,7 @@
       "lp"
       "kvm"
       "audio"
+      "podman"
     ];
   };
 
@@ -146,9 +133,6 @@
     file
     github-desktop
     cachix
-    libsForQt5.ark
-    flatpak-builder
-    libsForQt5.ksystemlog
     glxinfo
     vulkan-tools
     wayland-utils
@@ -158,11 +142,7 @@
     kitty
   ];
 
-  # System services
-  ## Flatpak
-  services.flatpak.enable = true;
-  xdg.portal.extraPortals =
-    [ pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-kde ];
+  plasma.enable = true;
 
   ## Mullvad
   services.mullvad-vpn.enable = true;
@@ -195,6 +175,9 @@
 
     SUBSYSTEM=="usb", ATTRS{idVendor}=="0416", MODE="0666"
     SUBSYSTEM=="usb_device", ATTRS{idVendor}=="0416", MODE="0666"
+
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="045e", MODE="0666"
+    SUBSYSTEM=="usb_device", ATTRS{idVendor}=="045e", MODE="0666"
   '';
 
   ## Needed because memory page limit errors when using vfio
@@ -220,6 +203,26 @@
   virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;
   virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
+  # virtualisation.oci-containers.containers = {
+  #   gluetun = {
+  #     image = "qmcgaw/gluetun";
+  #     autoStart = true;
+  #     environmentFiles = [ "/home/brian/Developer/gluetun/.env" ];
+  #     extraOptions = [ "--cap-add=NET_ADMIN" "--privileged" ];
+  #   };
+  # };
+  # networking.interfaces.virt_tun = {
+  #   name = "virt_tun";
+  #   virtual = true;
+  #   useDHCP = true;
+  #   ipv4.routes = [
+  #     {
+  #       address = "192.168.2.0";
+  #       prefixLength = 24;
+  #       via = "192.168.1.1";
+  #     }
+  #   ];
+  # };
 
   ## Virt-Manager/libvirtd
   virtualisation.libvirtd = {
@@ -242,44 +245,7 @@
   # Trust Users for cachix use
   nix.settings.trusted-users = [ "root" "brian" ];
 
-  # Steam/Game Related Settings.. Better Bluetooth drivers for Gamepad
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall =
-      true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall =
-      true; # Open ports in the firewall for Source Dedicated Server
-  };
-  services.blueman.enable = true;
-  hardware.bluetooth.enable = true;
-  nixpkgs.config.packageOverrides = pkgs: {
-    steam =
-      pkgs.steam.override { extraPkgs = pkgs: with pkgs; [ libgdiplus ]; };
-  };
-  hardware.xpadneo.enable = true;
-  ## Glorious Egg Roll Setup
-  environment.sessionVariables = rec {
-    XDG_CACHE_HOME = "\${HOME}/.cache";
-    XDG_CONFIG_HOME = "\${HOME}/.config";
-    XDG_BIN_HOME = "\${HOME}/.local/bin";
-    XDG_DATA_HOME = "\${HOME}/.local/share";
-    # Steam needs this to find Proton-GE
-    STEAM_EXTRA_COMPAT_TOOLS_PATHS =
-      "\${HOME}/.steam/root/compatibilitytools.d";
-    # note: this doesn't replace PATH, it just adds this to it
-    PATH = [ "\${XDG_BIN_HOME}" ];
-  };
-  programs.gamemode.enable = true;
-  # End Steam
-
-  # Printing/Scanning Options
-  hardware.sane.extraBackends = [ pkgs.hplipWithPlugin ];
-  hardware.sane.enable = true;
-  services.avahi.enable = true;
-  services.avahi.nssmdns = true;
-  services.printing.drivers = [ pkgs.hplip ];
-  services.printing.enable = true;
-  # End Print/Scan
+  officejet-6978.enable = true;
 
   # Fonts
   fonts.fonts = with pkgs; [
@@ -287,33 +253,18 @@
     nerdfonts
     pkgs.stable.openmoji-color
     league-of-moveable-type
+    comic-relief
   ];
+fonts.fontDir.enable = true;
   # End Fonts
 
+  flatpak.enable = true;
+
   # File Systems
-  system.fsPackages = [ pkgs.bindfs ];
-  fileSystems = let # = let
-    ## Internal 2TB SSD
-    "/home/brian/drive_two" = {
-      device = "/dev/disk/by-uuid/98f3c60b-2788-4116-9cca-bed48c2bc0bd";
-      fsType = "ext4";
-      options = [ "nofail" ];
-    };
-    ## Setup for fonts, icons for flatpak to find
-    mkRoSymBind = path: {
-      device = path;
-      fsType = "fuse.bindfs";
-      options = [ "ro" "resolve-symlinks" "x-gvfs-hide" ];
-    };
-    aggregatedFonts = pkgs.buildEnv {
-      name = "system-fonts";
-      paths = config.fonts.fonts;
-      pathsToLink = [ "/share/fonts" ];
-    };
-  in {
-    ## Create an FHS mount to support flatpak host icons/fonts
-    "/usr/share/icons" = mkRoSymBind (config.system.path + "/share/icons");
-    "/usr/share/fonts" = mkRoSymBind (aggregatedFonts + "/share/fonts");
+  fileSystems."/home/brian/drive_two" = {
+    device = "/dev/disk/by-uuid/98f3c60b-2788-4116-9cca-bed48c2bc0bd";
+    fsType = "ext4";
+    options = [ "nofail" ];
   };
   # End File Systems
 
@@ -335,4 +286,8 @@
 
   # Nix ld, for use with nix-alien-ld
   programs.nix-ld.enable = true;
+
+  # Gaming
+  gaming.enable = true;
+  services.hardware.openrgb.enable = true;
 }
