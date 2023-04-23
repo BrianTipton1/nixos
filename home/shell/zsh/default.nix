@@ -11,9 +11,9 @@
     shellAliases = {
       vim = "nvim";
       vi = "nvim";
-      ll = "exa --long --git --icons";
-      ls = "exa --long --git --icons";
-      l = "exa --long --all --git --icons";
+      l = "exa --long --git --icons";
+      ls = "exa";
+      ll = "exa --long --all --git --icons";
       lt = "exa --long --all --git --tree --icons --no-filesize --git-ignore";
       rg = "rg -i";
       cat = "bat";
@@ -58,6 +58,7 @@
       fujiClean = "pkill -9 -f p2_941; ipcrm --all=shm; ipcrm --all=sem";
       fujiRun = "nix run; fujiClean";
       open = "xdg-open";
+      icat = "kitty +kitten icat";
     };
 
     oh-my-zsh = {

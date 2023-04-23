@@ -25,7 +25,7 @@ _:
     bitwarden-cli
     qbittorrent
     mullvad-vpn
-    xclip
+    clipboard-jh
     rofi
     keyutils
     d2
@@ -34,6 +34,11 @@ _:
     # Office Tooling
     libreoffice-qt
     libsForQt5.skanlite
+    libsForQt5.discover
+    libsForQt5.kalendar
+    libsForQt5.filelight
+    libsForQt5.index
+    libsForQt5.ktorrent
     poppler_utils
     pdftk
 
@@ -45,8 +50,7 @@ _:
 
     # IDE's / Development
     jetbrains.pycharm-professional
-    jetbrains.idea-ultimate
-    jetbrains.rider
+    jetbrains.clion
     # jetbrains.clion
     lazygit
     gh
@@ -87,12 +91,13 @@ _:
     # Container/Virt tools
     distrobox
     pods
-    podman-compose
+    inputs.podman-compose-devel.packages.${pkgs.system}.default
+    inputs.cssxpd.packages.${pkgs.system}.default
     virt-manager
 
-    cowsay
+    soundux
     neofetch
-    elvish
+    comma
   ];
 
   # Session Vars
@@ -113,4 +118,5 @@ _:
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.useGlobalPkgs = true;
   nixpkgs.config.useUserPackages = true;
+  nixpkgs.config.permittedInsecurePackages = [ "electron-21.4.0" ];
 }

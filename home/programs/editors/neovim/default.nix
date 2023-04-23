@@ -34,8 +34,6 @@
       vim-tmux-navigator
       mini-nvim
       fennel-vim
-      neorg
-      neorg-telescope
       (nvim-treesitter.withPlugins (p:
         with p;
         [

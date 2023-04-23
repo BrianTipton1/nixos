@@ -28,6 +28,7 @@ _:
   services.xserver.videoDrivers = [ "amdgpu" ];
 
   mesa.enable = true;
+  mesa.git.enable = true;
 
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   # End Graphics Driver
@@ -174,6 +175,9 @@ _:
 
     SUBSYSTEM=="usb", ATTRS{idVendor}=="0416", MODE="0666"
     SUBSYSTEM=="usb_device", ATTRS{idVendor}=="0416", MODE="0666"
+
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="045e", MODE="0666"
+    SUBSYSTEM=="usb_device", ATTRS{idVendor}=="045e", MODE="0666"
   '';
 
   ## Needed because memory page limit errors when using vfio
@@ -196,9 +200,29 @@ _:
 
   # Virtulization
   ## Docker/Podman Setup
-  # virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;
   virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
+  # virtualisation.oci-containers.containers = {
+  #   gluetun = {
+  #     image = "qmcgaw/gluetun";
+  #     autoStart = true;
+  #     environmentFiles = [ "/home/brian/Developer/gluetun/.env" ];
+  #     extraOptions = [ "--cap-add=NET_ADMIN" "--privileged" ];
+  #   };
+  # };
+  # networking.interfaces.virt_tun = {
+  #   name = "virt_tun";
+  #   virtual = true;
+  #   useDHCP = true;
+  #   ipv4.routes = [
+  #     {
+  #       address = "192.168.2.0";
+  #       prefixLength = 24;
+  #       via = "192.168.1.1";
+  #     }
+  #   ];
+  # };
 
   ## Virt-Manager/libvirtd
   virtualisation.libvirtd = {
@@ -231,6 +255,7 @@ _:
     league-of-moveable-type
     comic-relief
   ];
+fonts.fontDir.enable = true;
   # End Fonts
 
   flatpak.enable = true;
@@ -264,4 +289,5 @@ _:
 
   # Gaming
   gaming.enable = true;
+  services.hardware.openrgb.enable = true;
 }
