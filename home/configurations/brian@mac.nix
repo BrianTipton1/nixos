@@ -2,6 +2,10 @@ _:
 { pkgs, inputs, ... }: {
 
   home.packages = with pkgs; [
+    # Fonts
+    jetbrains-mono
+    nerdfonts
+
     # School
     anki-bin
     obsidian
@@ -45,6 +49,11 @@ _:
 
   #Interpreters
   interpreters.ipython.enable = true;
+
+  #Shell
+  shell.zsh.enable = true;
+
+  fonts.fontconfig.enable = true;
 
   # Nix
   nix.unfree.enable = true;
