@@ -123,6 +123,9 @@ _:
   #Services
   services.clean-home.enable = true;
 
+  # Script Bin
+  scripts.enable = true;
+
   home.stateVersion = "22.11";
 
   programs.home-manager.enable = true;

@@ -14,4 +14,5 @@ inputs: {
   nix = import ./nix inputs;
   clean-home = import ./services/clean-home inputs;
   virtualization = import ./virtualization inputs;
+  scripts = import ./scripts inputs;
 }
