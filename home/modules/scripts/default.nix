@@ -26,14 +26,14 @@ let
   '';
 in {
   options.scripts.enable = lib.mkEnableOption "scripts";
-
   config = lib.mkMerge [
-    (lib.mkIf (config.scripts.enable && nixos.config.plasma.enable) {
-      home.packages = [ rm-kscreen rm-plasma ];
-    })
-    (lib.mkIf
-      (config.scripts.enable && nixos.config.services.mullvad-vpn.enable) {
-        home.packages = [  mullvad-helper  ];
+    (lib.mkIf (config.scripts.enable && pkgs.system == "x86-64_linux"
+      && nixos.config.plasma.enable) {
+        home.packages = [ rm-kscreen rm-plasma ];
+      })
+    (lib.mkIf (config.scripts.enable && pkgs.system == "x86-64_linux"
+      && nixos.config.services.mullvad-vpn.enable) {
+        home.packages = [ mullvad-helper ];
       })
   ];
 }
