@@ -1,9 +1,5 @@
 _:
 { pkgs, inputs, ... }: {
-  imports = [ ../shell ../programs ../services ];
-
-  # home.username = "brian";
-  # home.homeDirectory = "/home/brian";
 
   home.packages = with pkgs; [
     #Browsers
@@ -12,7 +8,6 @@ _:
 
     # School
     anki-bin
-    obsidian
     remmina
     filezilla
 
@@ -21,6 +16,7 @@ _:
     birdtray
 
     # Assorted
+    yt-dlp
     neofetch
     soundux
     bitwarden
@@ -43,8 +39,6 @@ _:
     # Voice/Video Call
     zoom-us
     nheko
-    signal-desktop
-    webcord
 
     # IDE's / Development
     jetbrains.pycharm-professional
@@ -85,32 +79,52 @@ _:
     nil
     inputs.nix-alien.packages.${system}.nix-alien
     comma
-
-    # Container/Virt tools
-    distrobox
-    pods
-    inputs.podman-compose-devel.packages.${pkgs.system}.default
-    virt-manager
-
   ];
 
-  # Session Vars
-  home.sessionVariables.NIXOS_OZONE_WL = "1";
-  home.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
-  home.sessionVariables.doom = "1";
+  # Editors
+  editors.neovim.enable = true;
+  editors.vscode.enable = true;
+  editors.emacs.enable = true;
+  editors.obsidian.enable = true;
+
+  # Utilities
+  git.enable = true;
+
+  # Global Interpeters
+  interpreters.ghci.enable = true;
+  interpreters.ipython.enable = true;
+
+  # Messaging
+  messaging.signal.enable = true;
+  messaging.signal.autostart.enable = true;
+
+  # Shell
+  shell.zsh.enable = true;
+
+  # Terms
+  terminal.wezterm.enable = true;
+  terminal.kitty.enable = true;
+
+  # Wayland Specific
+  wayland.enable = true;
+
+  # NixOS Specific
+  nix.unfree.enable = true;
+  nix.devenv.enable = true;
+  nixpkgs.config.useGlobalPkgs = true;
+  nixpkgs.config.useUserPackages = true;
+  nixpkgs.config.permittedInsecurePackages = [ "electron-21.4.0" ];
+  nix.stable-overlay.enable = true;
+
+  # Virtualization
+  virtualization.tools.enable = true;
+  virtualization.uefi.enable = true;
+
+  #Services
+  services.clean-home.enable = true;
 
   home.stateVersion = "22.11";
 
   programs.home-manager.enable = true;
 
-  # Need for UEFI - Currently broken
-  home.file."/home/brian/.config/libvirt/qemu.conf".text = ''
-    nvram = ["/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd"]
-  '';
-
-  nixpkgs.config.allowUnfreePredicate = (pkg: true);
-  nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.useGlobalPkgs = true;
-  nixpkgs.config.useUserPackages = true;
-  nixpkgs.config.permittedInsecurePackages = [ "electron-21.4.0" ];
 }
