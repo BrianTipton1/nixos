@@ -1,13 +1,16 @@
 _:
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }@system: {
   options.editors.vscode.enable = lib.mkEnableOption "editors vscode";
 
   config = lib.mkIf config.editors.vscode.enable {
     programs.vscode = {
       enable = true;
-      # enableUpdateCheck = false;
-      package = pkgs.vscode.fhsWithPackages
-        (ps: with ps; [ pkgs.nil nixfmt sumneko-lua-language-server ]);
+      enableUpdateCheck = false;
+      package = if system == "x86_64-linux" then
+        pkgs.vscode.fhsWithPackages
+        (ps: with ps; [ pkgs.nil nixfmt sumneko-lua-language-server ])
+      else
+        pkgs.vscode;
       extensions = with pkgs.vscode-extensions;
         [
           ms-azuretools.vscode-docker

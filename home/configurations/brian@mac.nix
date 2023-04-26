@@ -1,6 +1,5 @@
 _:
 { pkgs, inputs, ... }: {
-  imports = [ ../shell/zsh ];
 
   home.packages = with pkgs; [
     # School
@@ -39,8 +38,11 @@ _:
 
   programs.home-manager.enable = true;
 
-  nixpkgs.config.allowUnfreePredicate = (pkg: true);
-  nixpkgs.config.allowUnfree = true;
+  # Editors
+  editors.vscode.enable = true;
+
+  # Nix
+  nix.unfree.enable = true;
   nixpkgs.config.useGlobalPkgs = true;
   nixpkgs.config.useUserPackages = true;
 }
