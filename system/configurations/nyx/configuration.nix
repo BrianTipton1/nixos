@@ -137,6 +137,8 @@ _:
     vulkan-tools
     wayland-utils
     clinfo
+    libimobiledevice
+    ifuse
 
     # Terminal Emulators
     kitty
@@ -255,7 +257,7 @@ _:
     league-of-moveable-type
     comic-relief
   ];
-fonts.fontDir.enable = true;
+  fonts.fontDir.enable = true;
   # End Fonts
 
   flatpak.enable = true;
@@ -290,4 +292,9 @@ fonts.fontDir.enable = true;
   # Gaming
   gaming.enable = true;
   services.hardware.openrgb.enable = true;
+
+  services.usbmuxd = {
+    enable = true;
+    package = pkgs.usbmuxd2;
+  };
 }
