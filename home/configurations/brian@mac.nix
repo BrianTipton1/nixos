@@ -20,6 +20,7 @@ _:
     vscode
     inputs.cssxpd.packages.${pkgs.system}.default
     inputs.hm_purge.packages.${pkgs.system}.default
+    bat
 
     # IDE's / Development
     lazygit
@@ -34,6 +35,9 @@ _:
     #Nix Specific
     nixfmt
     nil
+
+    # MacOS Specific
+    rectangle
   ];
 
   home.stateVersion = "22.11";
