@@ -14,10 +14,8 @@ _:
     fzf
     exa
     vscode
-    iterm2
-    # inputs.cssxpd.packages.${pkgs.system}.default
-    # inputs.hm_purge.packages.${pkgs.system}.default
-
+    inputs.cssxpd.packages.${pkgs.system}.default
+    inputs.hm_purge.packages.${pkgs.system}.default
 
     # IDE's / Development
     lazygit
@@ -40,6 +38,13 @@ _:
 
   # Editors
   editors.vscode.enable = true;
+  editors.neovim.enable = true;
+
+  # Terminal
+  terminal.kitty.enable = true;
+
+  #Interpreters
+  interpreters.ipython.enable = true;
 
   # Nix
   nix.unfree.enable = true;

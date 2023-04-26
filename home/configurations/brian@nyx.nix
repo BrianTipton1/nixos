@@ -40,8 +40,6 @@ _:
     zoom-us
     nheko
 
-    webcord
-
     # IDE's / Development
     jetbrains.pycharm-professional
     jetbrains.clion
@@ -116,6 +114,7 @@ _:
   nixpkgs.config.useGlobalPkgs = true;
   nixpkgs.config.useUserPackages = true;
   nixpkgs.config.permittedInsecurePackages = [ "electron-21.4.0" ];
+  nix.stable-overlay.enable = true;
 
   # Virtualization
   virtualization.tools.enable = true;

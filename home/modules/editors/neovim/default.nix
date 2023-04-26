@@ -1,6 +1,5 @@
 _:
-{ config, lib, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }: {
   options.editors.neovim.enable = lib.mkEnableOption "editors neovim";
 
   config = lib.mkIf config.editors.neovim.enable {
@@ -39,12 +38,7 @@ _:
         vim-tmux-navigator
         mini-nvim
         fennel-vim
-        (nvim-treesitter.withPlugins (p:
-          with p;
-          [
-            # Keep calm and don't :TSInstall
-            tree-sitter-lua
-          ]))
+        (nvim-treesitter.withPlugins (p: with p; [ tree-sitter-lua ]))
       ];
       extraConfig = let
         files = lib.filesystem.listFilesRecursive ./config;

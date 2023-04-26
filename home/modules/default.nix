@@ -1,5 +1,4 @@
 inputs: {
-  overlay = import ./overlay inputs;
   neovim = import ./editors/neovim inputs;
   vscode = import ./editors/vscode inputs;
   emacs = import ./editors/emacs inputs;
