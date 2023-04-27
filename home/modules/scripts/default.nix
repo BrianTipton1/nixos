@@ -1,5 +1,5 @@
 _:
-{ config, lib, nixos, pkgs, ... }:
+{ config, lib, nixos, pkgs, X86-LINUX,  ... }:
 let
   rm-kscreen = pkgs.writeShellScriptBin "rmKscreen" ''
     rm -rf $HOME/.local/share/kscreen
@@ -27,11 +27,11 @@ let
 in {
   options.scripts.enable = lib.mkEnableOption "scripts";
   config = lib.mkMerge [
-    (lib.mkIf (config.scripts.enable && pkgs.system == "x86-64_linux"
+    (lib.mkIf (config.scripts.enable && pkgs.system == X86-LINUX
       && nixos.config.plasma.enable) {
         home.packages = [ rm-kscreen rm-plasma ];
       })
-    (lib.mkIf (config.scripts.enable && pkgs.system == "x86-64_linux"
+    (lib.mkIf (config.scripts.enable && pkgs.system == X86-LINUX
       && nixos.config.services.mullvad-vpn.enable) {
         home.packages = [ mullvad-helper ];
       })

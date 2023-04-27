@@ -1,5 +1,5 @@
 _:
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, X86-LINUX, ... }:
 let
   base-aliases = {
     vim = "nvim";
@@ -26,7 +26,7 @@ in {
       history.path = "${config.xdg.dataHome}/zsh/zsh_history";
 
       ## Aliases
-      shellAliases = if pkgs.system == "x86_64-linux" then
+      shellAliases = if pkgs.system == X86-LINUX then
         lib.mkMerge [
           ({
             update =
@@ -88,7 +88,7 @@ in {
         theme = "gianu";
       };
 
-      initExtra = if pkgs.system == "x86_64-linux" then
+      initExtra = if pkgs.system == X86-LINUX then
         builtins.readFile ./init.sh
       else
         "";
