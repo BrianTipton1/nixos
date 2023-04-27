@@ -6,4 +6,5 @@ inputs: {
   printing = import ./printing inputs;
   audio = import ./audio inputs;
   plasma = import ./plasma inputs;
+  vfio = import ./vfio inputs;
 }

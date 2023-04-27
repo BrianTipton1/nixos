@@ -35,24 +35,10 @@ _:
 
   # Kernel Config
   boot.kernelPackages = pkgs.linuxPackages_zen;
-
-  boot.initrd.kernelModules = [
-    "amdgpu"
-
-    "vfio_pci"
-    "vfio"
-    "vfio_iommu_type1"
-    ## This module I believe isn't needed in kernels >= 6.2.X
-    # "vfio_virqfd"
-  ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
 
   # Video and Sound PCIE ID's for 2070 Super. PCIE ID for Intel M.2
-  boot.kernelParams = [
-    "amd_iommu=on"
-    # "intel_iommu=on"
-    "vfio-pci.ids=10de:1e84,10de:10f8,10de:1ad8,10de:1ad9,8086:f1a8"
-    "amdgpu.sg_display=0"
-  ];
+  boot.kernelParams = [ "amdgpu.sg_display=0" ];
   boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
 
   ## Obs-Studio Virtual Camera
@@ -164,67 +150,11 @@ _:
 
   system.stateVersion = "22.11";
 
-  # Vfio Related Rules/Settings
-  ## Needed for permission to hotplug mouse and keyboard
-  services.udev.extraRules = ''
-    SUBSYSTEM=="vfio", OWNER="brian", GROUP="kvm"
-
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="046d", MODE="0666"
-    SUBSYSTEM=="usb_device", ATTRS{idVendor}=="046d", MODE="0666"
-
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="17ef", MODE="0666"
-    SUBSYSTEM=="usb_device", ATTRS{idVendor}=="17ef", MODE="0666"
-
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="0416", MODE="0666"
-    SUBSYSTEM=="usb_device", ATTRS{idVendor}=="0416", MODE="0666"
-
-    SUBSYSTEM=="usb", ATTRS{idVendor}=="045e", MODE="0666"
-    SUBSYSTEM=="usb_device", ATTRS{idVendor}=="045e", MODE="0666"
-  '';
-
-  ## Needed because memory page limit errors when using vfio
-  security.pam.loginLimits = [
-    {
-      domain = "brian";
-      item = "memlock";
-      type = "hard";
-      value = "unlimited";
-    }
-    {
-
-      domain = "brian";
-      item = "memlock";
-      type = "soft";
-      value = "unlimited";
-    }
-  ];
-  # End Vfio rules
-
   # Virtulization
   ## Docker/Podman Setup
   virtualisation.docker.enable = true;
   virtualisation.podman.enable = true;
   virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
-  # virtualisation.oci-containers.containers = {
-  #   gluetun = {
-  #     image = "qmcgaw/gluetun";
-  #     autoStart = true;
-  #     environmentFiles = [ "/home/brian/Developer/gluetun/.env" ];
-  #     extraOptions = [ "--cap-add=NET_ADMIN" "--privileged" ];
-  #   };
-  # };
-  # networking.interfaces.virt_tun = {
-  #   name = "virt_tun";
-  #   virtual = true;
-  #   useDHCP = true;
-  #   ipv4.routes = [
-  #     {
-  #       address = "192.168.2.0";
-  #       prefixLength = 24;
-  #       via = "192.168.1.1";
-  #     }
-  #   ];
-  # };
 
   ## Virt-Manager/libvirtd
   virtualisation.libvirtd = {
@@ -297,4 +227,13 @@ _:
     enable = true;
     package = pkgs.usbmuxd2;
   };
+
+  # Vfio
+  vfio.enable = true;
+  vfio.pam-fix.enable = true;
+  vfio.usb-ids = [ "046d" "17ef" "0416" "045e" ];
+  vfio.cpu-type = "amd";
+  vfio.users = [ "brian" ];
+  vfio.pcie-ids =
+    [ "10de:1e84" "10de:10f8" "10de:1ad8" "10de:1ad9" "8086:f1a8" ];
 }
