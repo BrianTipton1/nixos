@@ -1,0 +1,3 @@
+[submodule "system/modules/nix-vfio-module"]
+	path = system/modules/nix-vfio-module
+	url = https://github.com/BrianTipton1/nix-vfio-module.git
