@@ -150,23 +150,6 @@ _:
 
   system.stateVersion = "22.11";
 
-  # Virtulization
-  ## Docker/Podman Setup
-  virtualisation.docker.enable = true;
-  virtualisation.podman.enable = true;
-  virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
-
-  ## Virt-Manager/libvirtd
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu.ovmf.enable = true;
-    qemu.runAsRoot = false;
-
-    ### Needed for UEFI booting systems currently. Tmp fix 
-    qemu.verbatimConfig = ''
-      nvram = ["/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd"]
-    '';
-  };
   ## Simple spice hotplug of usb devices
   virtualisation.spiceUSBRedirection.enable = true;
   # End Virtualization
@@ -231,10 +214,51 @@ _:
   # Vfio
   vfio.enable = true;
   vfio.pam-fix.enable = true;
-  vfio.usb-ids = [ "046d" "17ef" "0416" "045e" ];
+  vfio.usb-ids = [
+    {
+      name = "Logitech Mouse Receiver";
+      id = "046d";
+    }
+    {
+      name = "Varmillo Keyboard";
+      id = "0416";
+    }
+  ];
   vfio.cpu-type = "amd";
   vfio.users = [ "brian" ];
-  vfio.pcie-ids =
-    [ "10de:1e84" "10de:10f8" "10de:1ad8" "10de:1ad9" "8086:f1a8" ];
+  vfio.pcie-ids = [
+    {
+      name = "nvidia-rtx-2070-super";
+      ids = [
+        {
+          id = "10de:1e84";
+          description = "VGA compatible controller";
+        }
+        {
+          id = "10de:10f8";
+          description = "HD Audio Controller";
+        }
+        {
+          id = "10de:1ad8";
+          description = "Host Controller";
+        }
+        {
+          id = "10de:1ad9";
+          description = "USB Type-C UCSI Controller";
+        }
+      ];
+    }
+    {
+      name = "intel-m1-drive";
+      ids = [{
+        id = "8086:f1a8";
+        description = "Non-Volatile memory controller";
+      }];
+    }
+  ];
   vfio.script.enable = true;
+
+  # Virtualisation
+  virt.vms.enable = true;
+  virt.containers.enable = true;
 }
