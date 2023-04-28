@@ -6,6 +6,6 @@ inputs: {
   printing = import ./printing inputs;
   audio = import ./audio inputs;
   plasma = import ./plasma inputs;
+  vfio = import ./vfio inputs;
   virt = import ./virt inputs;
-  vfio = import ./nix-vfio-module/vfio.nix inputs;
 }
