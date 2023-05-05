@@ -1,7 +1,3 @@
 inputs:
 let pkgs = inputs.nixpkgs.legacyPackages;
-in {
-
-  # Linux scripts
-  x86_64-linux = { };
-}
+in { x86_64-linux = { vfio = pkgs.x86_64-linux.callPackage ./vfio { }; }; }

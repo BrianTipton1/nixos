@@ -27,7 +27,6 @@ _:
   ## Graphics Drivers Setup 
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  mesa.enable = true;
   mesa.git.enable = true;
 
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;

@@ -1,5 +1,5 @@
 _:
-{ config, lib, nixos, pkgs, X86-LINUX,  ... }:
+{ config, lib, nixos, pkgs, X86-LINUX, ... }:
 let
   rm-kscreen = pkgs.writeShellScriptBin "rmKscreen" ''
     rm -rf $HOME/.local/share/kscreen

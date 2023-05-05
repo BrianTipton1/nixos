@@ -11,6 +11,7 @@ let
       ms-python.python
       sumneko.lua
       catppuccin.catppuccin-vsc
+      mkhl.direnv
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
       {
         name = "ayu";

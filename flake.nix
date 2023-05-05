@@ -7,7 +7,7 @@
     nix-alien.url = "github:thiagokokada/nix-alien";
     mesa-git = {
       # url = "https://gitlab.freedesktop.org/mesa/mesa";
-      url = "https://archive.mesa3d.org/mesa-23.0.1.tar.xz";
+      url = "https://archive.mesa3d.org/mesa-23.0.3.tar.xz";
       flake = false;
     };
     podman-compose-devel.url = "github:BrianTipton1/podman-compose-flake";

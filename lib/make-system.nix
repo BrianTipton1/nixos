@@ -11,6 +11,7 @@ in inputs.nixpkgs.lib.nixosSystem {
   modules = builtins.attrValues self.nixosModules ++ [
     config-file
     hardware
+    { config._module.args = { self = self; }; }
     {
       networking.hostName = name;
       system.configurationRevision = self.rev or "dirty";

@@ -1,7 +1,8 @@
 inputs:
-{ pkgs, lib, config, ... }:
+{ pkgs, self, lib, config, ... }:
 with lib;
 let
+
   # Short hand funcs
   all-string = with builtins; e: (all (i: isString i) e);
   all-attrs = with builtins; e: (all (i: isAttrs i) e);
@@ -63,7 +64,7 @@ in {
     pcie-ids = mkOption {
       default = [ ];
       description = ''
-        pcie ids of device(s) to be passed through
+        pcie device ids of device(s) to be passed through
         see show-iommu.sh to get id
         Example output from script: 
         IOMMU Group 24:
@@ -147,10 +148,7 @@ in {
       '';
     };
   };
-  config = let
-    iommu-script = pkgs.writeShellScriptBin "show-iommu.sh"
-      (builtins.readFile ./show-iommu.sh);
-  in mkMerge [
+  config = mkMerge [
     (mkIf config.vfio.enable {
       assertions = with builtins; [
         {
@@ -171,10 +169,10 @@ in {
         {
           assertion =
             # Check if all the ids are strings
-            if (all (i: isString i) (config.vfio.pcie-ids)) then
+            if (all-string (config.vfio.pcie-ids)) then
               true
               # Check if all the ids are attributes
-            else if (all (i: isAttrs i) (config.vfio.pcie-ids)) then
+            else if (all-attrs (config.vfio.pcie-ids)) then
             # If they are -> check to make sure all the attributes are of correct form
               (all (i: check-pcie-attrs i) (config.vfio.pcie-ids))
             else
@@ -255,7 +253,14 @@ in {
         [ ];
     })
     (mkIf config.vfio.script.enable {
-      environment.systemPackages = [ iommu-script ];
+      # environment.systemPackages = with builtins;
+        # let
+        #   vfio-py = pkgs.callPackage ./vfio-py.nix {
+        #     vfio-script = self.packages.x86_64-linux.vfio.script;
+        #     config = config;
+        #     pkgs = pkgs;
+        #   };
+        # in [ vfio-py ];
     })
   ];
 }

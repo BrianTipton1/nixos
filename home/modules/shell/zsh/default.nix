@@ -13,6 +13,7 @@ let
     nuke = "rm -rf";
     icat = "kitty +kitten icat";
     ns = "nix-shell";
+    select = "launch $(open $(find . -type f -not -path '*/\\.git/*' | fzf))";
   };
 in {
   options.shell.zsh.enable = lib.mkEnableOption "shell zsh";
@@ -88,10 +89,8 @@ in {
         theme = "gianu";
       };
 
-      initExtra = if pkgs.system == X86-LINUX then
-        builtins.readFile ./init.sh
-      else
-        "";
+      initExtra =
+        if pkgs.system == X86-LINUX then builtins.readFile ./init.sh else "";
 
       loginExtra = ''
         # Create a cache folder for zcompdump if it isn't exists
