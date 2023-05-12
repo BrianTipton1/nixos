@@ -203,6 +203,7 @@ _:
 
   # Gaming
   gaming.enable = true;
+  gaming.steam-beta-fix.enable = true;
   services.hardware.openrgb.enable = true;
 
   services.usbmuxd = {

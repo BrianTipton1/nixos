@@ -6,9 +6,9 @@ _:
       enable = true;
       package = pkgs.kitty;
       extraConfig = if config.wayland.enable then ''
-        KITTY_ENABLE_WAYLAND=1
         cursor_shape beam
         close_on_child_death yes
+        linux_display_server wayland
       '' else ''
         cursor_shape beam
         close_on_child_death yes

@@ -40,15 +40,15 @@ in {
       enable = true;
       enableUpdateCheck = false;
       package = if pkgs.system == "x86_64-linux" then
-        pkgs.vscode.fhsWithPackages
-        (ps: with ps; [ pkgs.nil nixfmt sumneko-lua-language-server ])
+        pkgs.vscode#.fhsWithPackages
+        # (ps: with ps; [ pkgs.nil nixfmt sumneko-lua-language-server ])
       else
         pkgs.vscode;
       extensions = if pkgs.system == "x86_64-linux" then
         with pkgs.vscode-extensions;
         [
-          vadimcn.vscode-lldb
           haskell.haskell
+          vadimcn.vscode-lldb
           mads-hartmann.bash-ide-vscode
           foxundermoon.shell-format
         ] ++ base-extensions

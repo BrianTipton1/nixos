@@ -161,7 +161,7 @@ Fixes issue with memory paging limits when attempting to pass through gpu
 vfio.pam-fix.enable = true;
 ```
 
-## Helper Script
+## Python Helper Script (TODO..) 
 
 Python script I have wrapped with nix to pass through the current systems vfio configuration.
 > Enabling

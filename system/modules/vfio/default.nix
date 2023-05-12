@@ -252,15 +252,16 @@ in {
       else
         [ ];
     })
+    # TODO
     (mkIf config.vfio.script.enable {
       # environment.systemPackages = with builtins;
-        # let
-        #   vfio-py = pkgs.callPackage ./vfio-py.nix {
-        #     vfio-script = self.packages.x86_64-linux.vfio.script;
-        #     config = config;
-        #     pkgs = pkgs;
-        #   };
-        # in [ vfio-py ];
+      # let
+      #   vfio-py = pkgs.callPackage ./vfio-py.nix {
+      #     vfio-script = self.packages.x86_64-linux.vfio.script;
+      #     config = config;
+      #     pkgs = pkgs;
+      #   };
+      # in [ vfio-py ];
     })
   ];
 }
