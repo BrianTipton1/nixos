@@ -1,4 +1,5 @@
 pkgs: {
+
   window.zoomLevel = 3;
   files.autoSave = "afterDelay";
   vim.vimrc.enable = true;
@@ -39,4 +40,9 @@ pkgs: {
   "[c]"."editor.defaultFormatter" = "ccls-project.ccls";
   "rust-analyzer.server.path" = "${pkgs.rust-analyzer}/bin/rust-analyzer";
   "extensions.ignoreRecommendations" = true;
+  "[markdown]" = {
+    "editor.defaultFormatter" = "DavidAnson.vscode-markdownlint";
+  };
+  "markdown-preview-enhanced.previewTheme" = "one-dark.css";
+  "direnv.restart.automatic" = true;
 }

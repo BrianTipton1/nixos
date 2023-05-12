@@ -9,7 +9,7 @@ _:
         "signal-desktop" = {
           name = "Signal";
           exec =
-            "signal-desktop --enable-features=UseOzonePlatform --ozone-platform=wayland --use-tray-icon %U";
+            "signal-desktop --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland --use-tray-icon %U";
           categories = [ "Network" "InstantMessaging" "Chat" ];
           icon = "signal-desktop";
           comment = "Private messaging from your desktop";
@@ -25,7 +25,7 @@ _:
             [Desktop Entry]
             Categories=Network;InstantMessaging;Chat
             Comment=Private messaging from your desktop
-            Exec=signal-desktop --enable-features=UseOzonePlatform --ozone-platform=wayland --use-tray-icon --start-in-tray %U
+            Exec=signal-desktop --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland --use-tray-icon --start-in-tray %U
             Icon=signal-desktop
             Name=Signal
             Terminal=false

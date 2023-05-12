@@ -8,7 +8,7 @@ with lib; {
     xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     system.fsPackages = [ pkgs.bindfs ];
     environment.systemPackages = with pkgs; [ flatpak-builder ];
-    ## Setup for fonts, icons for flatpak to find
+    # Setup for fonts, icons for flatpak to find
     fileSystems = let
       mkRoSymBind = path: {
         device = path;

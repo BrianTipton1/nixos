@@ -58,7 +58,6 @@ _:
     obs-studio
 
     # Photo/Video Edit
-    libsForQt5.kdenlive
     gimp
     vlc
 

@@ -14,6 +14,7 @@ with lib; {
       libsForQt5.skanlite
       libsForQt5.kalendar
       libsForQt5.filelight
+      libsForQt5.kdenlive
     ];
 
     environment.sessionVariables.KWIN_DRM_NO_AMS = "1";

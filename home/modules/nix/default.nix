@@ -25,7 +25,8 @@ in {
       programs.direnv.enableZshIntegration = true;
       programs.direnv.nix-direnv.enable = true;
     })
-    (lib.mkIf config.nix.stable-overlay.enable
-      { nixpkgs.overlays = [ overlay-stable ]; })
+    (lib.mkIf config.nix.stable-overlay.enable {
+      nixpkgs.overlays = [ overlay-stable ];
+    })
   ];
 }

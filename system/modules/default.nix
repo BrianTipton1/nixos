@@ -7,4 +7,5 @@ inputs: {
   audio = import ./audio inputs;
   plasma = import ./plasma inputs;
   vfio = import ./vfio inputs;
+  virt = import ./virt inputs;
 }

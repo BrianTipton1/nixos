@@ -93,3 +93,10 @@ function launch {
 	nohup $1 >/dev/null 2>/dev/null &
 	disown
 }
+
+function nixfmtdir {
+	files=$(find . -type f -not -path '*/\.git/*' -name "*.nix")
+	for i in $files; do
+		nixfmt $i
+	done
+}
