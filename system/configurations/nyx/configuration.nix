@@ -261,4 +261,6 @@ _:
   # Virtualisation
   virt.vms.enable = true;
   virt.containers.enable = true;
+
+  nixpkgs.config.permittedInsecurePackages = [ "openssl-1.1.1t"          "openssl-1.1.1u"];
 }

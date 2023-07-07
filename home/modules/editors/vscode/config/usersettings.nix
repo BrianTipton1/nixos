@@ -45,4 +45,7 @@ pkgs: {
   };
   "markdown-preview-enhanced.previewTheme" = "one-dark.css";
   "direnv.restart.automatic" = true;
+  "powershell.powerShellAdditionalExePaths" = {
+    "powershell" = "/home/brian/.nix-profile/bin/pwsh";
+  };
 }

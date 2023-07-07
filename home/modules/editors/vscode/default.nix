@@ -3,6 +3,7 @@ _:
 let
   base-extensions = with pkgs.vscode-extensions;
     [
+      ms-vscode.PowerShell
       ms-azuretools.vscode-docker
       vscodevim.vim
       bungcip.better-toml
@@ -12,6 +13,7 @@ let
       sumneko.lua
       catppuccin.catppuccin-vsc
       mkhl.direnv
+      ionide.ionide-fsharp
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
       {
         name = "ayu";
@@ -38,12 +40,18 @@ in {
   config = lib.mkIf config.editors.vscode.enable {
     programs.vscode = {
       enable = true;
-      enableUpdateCheck = false;
+      # enableUpdateCheck = false;
       package = if pkgs.system == "x86_64-linux" then
-        pkgs.vscode#.fhsWithPackages
-        # (ps: with ps; [ pkgs.nil nixfmt sumneko-lua-language-server ])
+      pkgs.vscode-wayland-fix.vscode # # .fhsWithPackages
+        # (ps:
+        #   with ps; [
+        #     pkgs.nil
+        #     nixfmt
+        #     sumneko-lua-language-server
+        #     dotnet-sdk_7
+        #   ])
       else
-        pkgs.vscode;
+        pkgs.stable.vscode;
       extensions = if pkgs.system == "x86_64-linux" then
         with pkgs.vscode-extensions;
         [
@@ -54,8 +62,8 @@ in {
         ] ++ base-extensions
       else
         [ ] ++ base-extensions;
-      keybindings = import ./config/keybindings.nix;
-      userSettings = import ./config/usersettings.nix pkgs;
+      # keybindings = import ./config/keybindings.nix;
+      # userSettings = import ./config/usersettings.nix pkgs;
     };
     home.file.".vsvimrc".text = ''
       imap jj <Esc>

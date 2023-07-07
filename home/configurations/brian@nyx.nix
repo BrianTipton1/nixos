@@ -43,7 +43,7 @@ _:
     # IDE's / Development
     jetbrains.pycharm-professional
     jetbrains.clion
-    # jetbrains.clion
+    jetbrains.rider
     lazygit
     gh
 
@@ -67,18 +67,20 @@ _:
     dolphin-emu
     mupen64plus
 
-    # Non-Steam Games
-    xivlauncher
-
     # Interpreters
+    dotnet-sdk_7
     lua5_4
+    powershell
+    oh-my-posh
 
     #Nix Specific
     nixfmt
     nil
     inputs.nix-alien.packages.${system}.nix-alien
     comma
+    zoxide
   ];
+  home.sessionVariables.DOTNET_CLI_TELEMETRY_OPTOUT = "1";
 
   # Editors
   editors.neovim.enable = true;
@@ -112,7 +114,8 @@ _:
   nix.devenv.enable = true;
   nixpkgs.config.useGlobalPkgs = true;
   nixpkgs.config.useUserPackages = true;
-  nixpkgs.config.permittedInsecurePackages = [ "electron-21.4.0" ];
+  nixpkgs.config.permittedInsecurePackages =
+    [ "electron-21.4.0" "nodejs-16.20.0" "openssl-1.1.1t" ];
   nix.stable-overlay.enable = true;
 
   # Virtualization

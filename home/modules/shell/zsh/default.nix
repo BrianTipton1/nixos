@@ -14,6 +14,7 @@ let
     icat = "kitty +kitten icat";
     ns = "nix-shell";
     select = "launch $(open $(find . -type f -not -path '*/\\.git/*' | fzf))";
+    cabal-repl = "cabal repl --build-depends pretty-simple";
   };
 in {
   options.shell.zsh.enable = lib.mkEnableOption "shell zsh";

@@ -9,6 +9,12 @@ let
       config.allowUnfree = true;
     };
   };
+  overlay-vscode-fix = final: prev: {
+    vscode-wayland-fix = import inputs.vscode-wayland-fix {
+      inherit system;
+      config.allowUnfree = true;
+    };
+  };
 in {
   options.nix.unfree.enable = lib.mkEnableOption "nix unfree";
   options.nix.devenv.enable = lib.mkEnableOption "nix devenv";
@@ -26,7 +32,7 @@ in {
       programs.direnv.nix-direnv.enable = true;
     })
     (lib.mkIf config.nix.stable-overlay.enable {
-      nixpkgs.overlays = [ overlay-stable ];
+      nixpkgs.overlays = [ overlay-stable overlay-vscode-fix ];
     })
   ];
 }

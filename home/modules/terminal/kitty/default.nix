@@ -9,6 +9,7 @@ _:
         cursor_shape beam
         close_on_child_death yes
         linux_display_server wayland
+        copy_on_select yes
       '' else ''
         cursor_shape beam
         close_on_child_death yes

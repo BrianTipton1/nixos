@@ -7,7 +7,7 @@ _:
     (lib.mkIf config.virtualization.tools.enable {
       home.packages = with pkgs; [
         distrobox
-        pods
+        # pods
         inputs.podman-compose-devel.packages.${pkgs.system}.default
         virt-manager
       ];
