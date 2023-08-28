@@ -27,7 +27,7 @@ _:
   ## Graphics Drivers Setup 
   services.xserver.videoDrivers = [ "amdgpu" ];
 
-  mesa.git.enable = true;
+  mesa.git.enable = false;
 
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   # End Graphics Driver
@@ -223,6 +223,10 @@ _:
       name = "Varmillo Keyboard";
       id = "0416";
     }
+    {
+      name = "USB Flash";
+      id = "0781";
+    }
   ];
   vfio.cpu-type = "amd";
   vfio.users = [ "brian" ];
@@ -262,5 +266,5 @@ _:
   virt.vms.enable = true;
   virt.containers.enable = true;
 
-  nixpkgs.config.permittedInsecurePackages = [ "openssl-1.1.1t"          "openssl-1.1.1u"];
+  nixpkgs.config.permittedInsecurePackages = [ "openssl-1.1.1t"          "openssl-1.1.1u" "openssl-1.1.1v"];
 }

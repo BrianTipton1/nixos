@@ -52,7 +52,7 @@ _:
   terminal.kitty.enable = true;
 
   #Interpreters
-  interpreters.ipython.enable = true;
+  interpreters.ipython.enable = false;
 
   #Shell
   shell.zsh.enable = true;

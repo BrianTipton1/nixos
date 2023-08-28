@@ -2,6 +2,10 @@ _:
 { pkgs, inputs, ... }: {
 
   home.packages = with pkgs; [
+
+    notion-app-enhanced
+    mods
+    glow
     #Browsers
     firefox
     ungoogled-chromium
@@ -41,15 +45,8 @@ _:
     nheko
 
     # IDE's / Development
-    jetbrains.pycharm-professional
-    jetbrains.clion
-    jetbrains.rider
     lazygit
     gh
-
-    # Latex
-    kile
-    texlive.combined.scheme-full
 
     # Audio
     rnnoise-plugin
@@ -68,7 +65,7 @@ _:
     mupen64plus
 
     # Interpreters
-    dotnet-sdk_7
+    # dotnet-sdk_7
     lua5_4
     powershell
     oh-my-posh
@@ -96,8 +93,8 @@ _:
   interpreters.ipython.enable = true;
 
   # Messaging
-  messaging.signal.enable = true;
-  messaging.signal.autostart.enable = true;
+  messaging.signal.enable = false;
+  messaging.signal.autostart.enable = false;
 
   # Shell
   shell.zsh.enable = true;

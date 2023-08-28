@@ -12,9 +12,9 @@ with lib; {
       libsForQt5.ark
       libsForQt5.ksystemlog
       libsForQt5.skanlite
-      libsForQt5.kalendar
       libsForQt5.filelight
       libsForQt5.kdenlive
+      libsForQt5.kfind
     ];
 
     environment.sessionVariables.KWIN_DRM_NO_AMS = "1";

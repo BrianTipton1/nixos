@@ -22,7 +22,7 @@ in {
     programs.zsh = {
 
       enable = true;
-      enableSyntaxHighlighting = true;
+      syntaxHighlighting.enable = true;
       enableAutosuggestions = true;
       dotDir = ".config/zsh";
       history.path = "${config.xdg.dataHome}/zsh/zsh_history";
@@ -55,6 +55,8 @@ in {
             dockerPurge =
               "docker rm -f $(docker ps -a -q);docker volume rm $(docker volume ls -q);docker system prune -a;";
             open = "xdg-open";
+            fujiSync =
+              "cd $HOME/Developer/WebServerDownload/ && python main.py";
           })
           (base-aliases)
         ]

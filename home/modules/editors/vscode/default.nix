@@ -12,8 +12,6 @@ let
       ms-python.python
       sumneko.lua
       catppuccin.catppuccin-vsc
-      mkhl.direnv
-      ionide.ionide-fsharp
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
       {
         name = "ayu";
@@ -39,10 +37,10 @@ in {
 
   config = lib.mkIf config.editors.vscode.enable {
     programs.vscode = {
-      enable = true;
+      enable = false;
       # enableUpdateCheck = false;
       package = if pkgs.system == "x86_64-linux" then
-      pkgs.vscode-wayland-fix.vscode # # .fhsWithPackages
+      pkgs.vscode
         # (ps:
         #   with ps; [
         #     pkgs.nil

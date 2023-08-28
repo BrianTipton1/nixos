@@ -4,7 +4,7 @@ _:
 
   config = lib.mkIf config.editors.neovim.enable {
     programs.neovim = {
-      enable = true;
+      enable = false;
       extraPackages = with pkgs; [
         sumneko-lua-language-server
         nodePackages_latest.vscode-json-languageserver
